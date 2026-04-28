@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 40% 97%;
+    --foreground: 20 30% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 30% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 30% 12%;
+
+    --primary: 28 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 42 100% 50%;
+    --secondary-foreground: 20 30% 12%;
+
+    --muted: 40 25% 92%;
+    --muted-foreground: 20 15% 40%;
+
+    --accent: 42 100% 50%;
+    --accent-foreground: 20 30% 12%;
+
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 25% 88%;
+    --input: 30 25% 88%;
+    --ring: 28 100% 50%;
+
+    --radius: 1rem;
+
+    --gold: 42 100% 50%;
+    --gold-foreground: 20 30% 12%;
+    --terracotta: 14 70% 45%;
+    --deep-green: 145 60% 22%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(28 100% 50%) 0%, hsl(42 100% 50%) 100%);
+    --gradient-sunset: linear-gradient(160deg, hsl(28 100% 55%) 0%, hsl(14 80% 50%) 60%, hsl(20 60% 25%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(40 50% 96%) 100%);
+    --gradient-ambient: radial-gradient(1200px 600px at 10% -10%, hsl(28 100% 60% / 0.25), transparent 60%),
+                        radial-gradient(900px 500px at 110% 10%, hsl(42 100% 55% / 0.22), transparent 60%),
+                        radial-gradient(800px 600px at 50% 110%, hsl(14 70% 50% / 0.18), transparent 60%),
+                        linear-gradient(180deg, hsl(40 60% 97%) 0%, hsl(38 55% 94%) 100%);
+    --shadow-warm: 0 10px 30px -10px hsl(28 100% 50% / 0.35);
+    --shadow-soft: 0 4px 20px -8px hsl(20 30% 12% / 0.15);
+    --shadow-glow: 0 20px 60px -20px hsl(28 100% 55% / 0.45);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 20 30% 8%;
+    --foreground: 40 40% 97%;
+    --card: 20 25% 12%;
+    --card-foreground: 40 40% 97%;
+    --popover: 20 25% 12%;
+    --popover-foreground: 40 40% 97%;
+    --primary: 28 100% 55%;
+    --primary-foreground: 20 30% 8%;
+    --secondary: 42 100% 50%;
+    --secondary-foreground: 20 30% 8%;
+    --muted: 20 20% 18%;
+    --muted-foreground: 40 20% 70%;
+    --accent: 42 100% 50%;
+    --accent-foreground: 20 30% 8%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 40 40% 97%;
+    --border: 20 20% 20%;
+    --input: 20 20% 20%;
+    --ring: 28 100% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  .bg-gradient-sunset {
+    background: var(--gradient-sunset);
+  }
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+  .bg-gradient-ambient {
+    background: var(--gradient-ambient);
+    background-attachment: fixed;
+  }
+  .shadow-warm {
+    box-shadow: var(--shadow-warm);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .pattern-kente {
+    background-image:
+      repeating-linear-gradient(45deg, hsl(var(--primary) / 0.08) 0 8px, transparent 8px 16px),
+      repeating-linear-gradient(-45deg, hsl(var(--secondary) / 0.08) 0 8px, transparent 8px 16px);
+  }
+  .pattern-grain {
+    background-image: radial-gradient(hsl(20 30% 12% / 0.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+  .glass {
+    background: hsl(0 0% 100% / 0.55);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid hsl(0 0% 100% / 0.6);
+  }
+  .glow-warm::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: radial-gradient(60% 80% at 50% 0%, hsl(var(--primary) / 0.18), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .animate-float-slow {
+    animation: float-slow 12s ease-in-out infinite;
+  }
+  .animate-float-slower {
+    animation: float-slow 18s ease-in-out infinite;
+  }
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--secondary) / 0.25) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -25px) scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
