@@ -2,14 +2,16 @@ import { BADGES } from "@/stores/missions";
 import { useJambaar } from "@/stores/jambaar";
 import { Award, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export const BadgesGrid = () => {
+  const { t } = useTranslation();
   const points = useJambaar((s) => s.points);
   return (
     <section className="px-5 mt-6">
       <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
         <Award className="h-5 w-5 text-primary" />
-        Récompenses & titres
+        {t("badges.title")}
       </h2>
       <div className="grid grid-cols-3 gap-2">
         {BADGES.map((b, i) => {
@@ -39,14 +41,14 @@ export const BadgesGrid = () => {
               </p>
               {!unlocked && (
                 <>
-                  <p className="text-[9px] text-muted-foreground mt-0.5">{b.seuil} pts</p>
+                  <p className="text-[9px] text-muted-foreground mt-0.5">{t("common.pointsShort", { count: b.seuil })}</p>
                   <div className="h-1 rounded-full bg-muted overflow-hidden mt-1">
                     <div className="h-full bg-primary/60" style={{ width: `${pct}%` }} />
                   </div>
                 </>
               )}
               {unlocked && (
-                <p className="text-[9px] text-deep-green font-bold mt-0.5 uppercase tracking-wider">Débloqué</p>
+                <p className="text-[9px] text-deep-green font-bold mt-0.5 uppercase tracking-wider">{t("badges.unlocked")}</p>
               )}
             </div>
           );

@@ -12,10 +12,10 @@ const niveauStyle: Record<string, string> = {
   Jambaar: "bg-gradient-hero text-primary-foreground",
 };
 
-const typeMeta: Record<Post["type"], { label: string; icon: typeof HandHeart; color: string }> = {
-  aide: { label: "Aide apportée", icon: HandHeart, color: "bg-deep-green/15 text-deep-green" },
-  remerciement: { label: "Remerciement", icon: Sparkles, color: "bg-secondary/30 text-secondary-foreground" },
-  communaute: { label: "Communauté", icon: Megaphone, color: "bg-primary/15 text-primary" },
+const typeMeta: Record<Post["type"], { labelKey: string; icon: typeof HandHeart; color: string }> = {
+  aide: { labelKey: "jambaar.feed.typeHelped", icon: HandHeart, color: "bg-deep-green/15 text-deep-green" },
+  remerciement: { labelKey: "jambaar.feed.typeThanks", icon: Sparkles, color: "bg-secondary/30 text-secondary-foreground" },
+  communaute: { labelKey: "jambaar.feed.typeCommunity", icon: Megaphone, color: "bg-primary/15 text-primary" },
 };
 
 const PostCard = ({ post }: { post: Post }) => {
@@ -31,7 +31,7 @@ const PostCard = ({ post }: { post: Post }) => {
     const r = confirmAide(post.id);
     if (!r) return;
     if (post.auteur.startsWith("Toi")) addPoints(r.points);
-    toast.success(`Aide confirmée — +${r.points} pts pour ${r.aidant} ✅`);
+    toast.success(t("jambaar.feed.confirmToast", { points: r.points, helper: r.aidant }));
   };
 
   const onSendComment = () => {
@@ -43,12 +43,14 @@ const PostCard = ({ post }: { post: Post }) => {
   const onShare = async () => {
     const text = `${post.auteur} sur Jambaar : ${post.texte}`;
     try {
-      if (navigator.share) await navigator.share({ title: "Jambaar", text });
+      if (navigator.share) await navigator.share({ title: t("jambaar.feed.shareTitle"), text });
       else {
         await navigator.clipboard.writeText(text);
-        toast.success("Lien copié 📋");
+        toast.success(t("jambaar.feed.copied"));
       }
-    } catch {/* user cancelled */}
+    } catch {
+      // user cancelled
+    }
   };
 
   return (
@@ -69,7 +71,7 @@ const PostCard = ({ post }: { post: Post }) => {
         </div>
         <span className={cn("text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1", meta.color)}>
           <Icon className="h-3 w-3" />
-          {meta.label}
+          {t(meta.labelKey)}
         </span>
       </div>
 
@@ -88,13 +90,13 @@ const PostCard = ({ post }: { post: Post }) => {
         <div className="mx-4 mt-3 flex flex-wrap items-center gap-2">
           {post.pointsGagnes && (
             <span className="text-[11px] font-bold px-2 py-1 rounded-full bg-gradient-hero text-primary-foreground">
-              +{post.pointsGagnes} pts Jambaar
+              {t("jambaar.feed.pointsLabel", { points: post.pointsGagnes })}
             </span>
           )}
           {post.confirmee ? (
             <span className="text-[11px] font-bold px-2 py-1 rounded-full bg-deep-green/15 text-deep-green flex items-center gap-1">
               <CheckCircle2 className="h-3 w-3" />
-              Aide confirmée
+              {t("jambaar.feed.helpConfirmed")}
             </span>
           ) : (
             <button
@@ -102,7 +104,9 @@ const PostCard = ({ post }: { post: Post }) => {
               className="text-[11px] font-bold px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors flex items-center gap-1"
             >
               <CheckCircle2 className="h-3 w-3" />
-              {post.beneficiaire ? `Confirmer (${post.beneficiaire})` : "Confirmer l'aide"}
+              {post.beneficiaire
+                ? t("jambaar.feed.confirmWithName", { name: post.beneficiaire })
+                : t("jambaar.feed.confirmHelp")}
             </button>
           )}
         </div>

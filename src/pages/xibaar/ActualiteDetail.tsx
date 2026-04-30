@@ -28,13 +28,20 @@ const ActualiteDetailPage = () => {
 
   return (
     <div className="animate-fade-in pb-12">
-      <DetailHeader image={n.image} badge={n.categorie.toUpperCase()} titre={n.titre} sousTitre={n.date} />
+      <DetailHeader 
+        image={n.image} 
+        badge={t(`xibaar.actus.${n.id}.categorie`, { defaultValue: n.categorie }).toUpperCase()} 
+        titre={t(`xibaar.actus.${n.id}.titre`, { defaultValue: n.titre })} 
+        sousTitre={n.date} 
+      />
 
       {/* Auteur + share */}
       <section className="px-5 mt-5 flex items-center justify-between">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <User className="h-3.5 w-3.5" />
-          <span className="font-semibold">{extra?.auteur ?? t("xibaar.authorFallback")}</span>
+          <span className="font-semibold">
+            {t(`xibaar.actus.${n.id}.auteur`, { defaultValue: extra?.auteur ?? t("xibaar.ui.authorFallback") })}
+          </span>
         </div>
         <Button
           variant="outline"
@@ -43,20 +50,22 @@ const ActualiteDetailPage = () => {
           className="rounded-full text-xs h-8 border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground"
         >
           <Share2 className="h-3.5 w-3.5 mr-1.5" />
-          {t("xibaar.share")}
+          {t("xibaar.ui.share")}
         </Button>
       </section>
 
       {/* Extrait */}
       <section className="px-5 mt-4">
-        <p className="text-base text-foreground font-semibold leading-relaxed">{n.extrait}</p>
+        <p className="text-base text-foreground font-semibold leading-relaxed">
+          {t(`xibaar.actus.${n.id}.extrait`, { defaultValue: n.extrait })}
+        </p>
       </section>
 
       {/* Contenu */}
       <article className="px-5 mt-5 space-y-4">
         {(extra?.contenu ?? [n.extrait]).map((p, i) => (
           <p key={i} className="text-sm text-muted-foreground leading-relaxed">
-            {p}
+            {t(`xibaar.actus.${n.id}.contenu.${i}`, { defaultValue: p })}
           </p>
         ))}
       </article>
@@ -64,8 +73,8 @@ const ActualiteDetailPage = () => {
       {/* Footer */}
       <div className="px-5 mt-8">
         <div className="bg-gradient-card rounded-2xl p-5 border border-secondary/30 text-center">
-          <p className="text-xs text-muted-foreground mb-1">{t("xibaar.publishedOn", { date: n.date })}</p>
-          <p className="text-sm font-bold text-foreground">{t("xibaar.appTagline")}</p>
+          <p className="text-xs text-muted-foreground mb-1">{t("xibaar.ui.publishedOn", { date: n.date })}</p>
+          <p className="text-sm font-bold text-foreground">{t("app.brand.tagline")}</p>
         </div>
       </div>
     </div>

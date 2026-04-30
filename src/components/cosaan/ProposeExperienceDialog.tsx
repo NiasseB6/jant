@@ -10,18 +10,10 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { CATEGORIES_EXP, CategorieExp } from "@/data/experiences";
 import { useExperiences } from "@/stores/experiences";
-
-const schema = z.object({
-  titre: z.string().trim().min(5, "Titre trop court").max(80),
-  hote: z.string().trim().min(2, "Votre nom").max(60),
-  categorie: z.string().min(1, "Catégorie requise"),
-  description: z.string().trim().min(20, "Décrivez votre expérience (20 car. min)").max(500),
-  dureeMin: z.coerce.number().int().min(15, "Min 15 min").max(600),
-  prix: z.coerce.number().int().min(0).max(500000),
-  lieu: z.string().trim().min(2).max(80),
-});
+import { useTranslation } from "react-i18next";
 
 export const ProposeExperienceDialog = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [titre, setTitre] = useState("");
   const [hote, setHote] = useState("");
@@ -31,6 +23,16 @@ export const ProposeExperienceDialog = () => {
   const [prix, setPrix] = useState("10000");
   const [lieu, setLieu] = useState("");
   const proposer = useExperiences((s) => s.proposer);
+
+  const schema = z.object({
+    titre: z.string().trim().min(5, t("cosaan.propose.validation.titleShort")).max(80),
+    hote: z.string().trim().min(2, t("cosaan.propose.validation.hostName")).max(60),
+    categorie: z.string().min(1, t("cosaan.propose.validation.categoryRequired")),
+    description: z.string().trim().min(20, t("cosaan.propose.validation.descriptionMin")).max(500),
+    dureeMin: z.coerce.number().int().min(15, t("cosaan.propose.validation.min15")).max(600),
+    prix: z.coerce.number().int().min(0).max(500000),
+    lieu: z.string().trim().min(2, t("cosaan.propose.validation.locationRequired")).max(80),
+  });
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +50,7 @@ export const ProposeExperienceDialog = () => {
       prix: Number(prix),
       lieu: lieu.trim(),
     });
-    toast.success("Merci ! Votre expérience est proposée 🎉");
+    toast.success(t("cosaan.propose.toasts.thanks"));
     setTitre(""); setHote(""); setCategorie(""); setDescription("");
     setDureeMin("60"); setPrix("10000"); setLieu("");
     setOpen(false);
@@ -59,59 +61,63 @@ export const ProposeExperienceDialog = () => {
       <DialogTrigger asChild>
         <Button className="w-full h-14 bg-gradient-hero text-primary-foreground font-bold rounded-2xl shadow-warm">
           <Sparkles className="mr-2 h-5 w-5" />
-          Proposer une expérience
+          {t("cosaan.propose.cta")}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md rounded-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Partager votre savoir-faire</DialogTitle>
-          <p className="text-xs text-muted-foreground">Devenez hôte et faites découvrir le Sénégal.</p>
+          <DialogTitle>{t("cosaan.propose.title")}</DialogTitle>
+          <p className="text-xs text-muted-foreground">{t("cosaan.propose.subtitle")}</p>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-3">
           <div className="space-y-1.5">
-            <Label>Titre de l'expérience</Label>
-            <Input maxLength={80} value={titre} onChange={(e) => setTitre(e.target.value)} placeholder="Ex : Cours de Mafé chez moi" />
+            <Label>{t("cosaan.propose.labels.title")}</Label>
+            <Input maxLength={80} value={titre} onChange={(e) => setTitre(e.target.value)} placeholder={t("cosaan.propose.placeholders.title")} />
           </div>
           <div className="space-y-1.5">
-            <Label>Votre nom (hôte)</Label>
-            <Input maxLength={60} value={hote} onChange={(e) => setHote(e.target.value)} placeholder="Ex : Awa Diop" />
+            <Label>{t("cosaan.propose.labels.host")}</Label>
+            <Input maxLength={60} value={hote} onChange={(e) => setHote(e.target.value)} placeholder={t("cosaan.propose.placeholders.host")} />
           </div>
           <div className="space-y-1.5">
-            <Label>Catégorie</Label>
+            <Label>{t("cosaan.propose.labels.category")}</Label>
             <Select value={categorie} onValueChange={setCategorie}>
-              <SelectTrigger><SelectValue placeholder="Choisir..." /></SelectTrigger>
+              <SelectTrigger><SelectValue placeholder={t("common.choose")} /></SelectTrigger>
               <SelectContent>
-                {CATEGORIES_EXP.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                {CATEGORIES_EXP.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {t(`cosaan.experienceCategories.${c}`)}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-1.5">
-            <Label>Description</Label>
+            <Label>{t("cosaan.propose.labels.description")}</Label>
             <Textarea
               maxLength={500}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
               className="resize-none"
-              placeholder="Racontez ce que vivront les participants..."
+              placeholder={t("cosaan.propose.placeholders.description")}
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>Durée (min)</Label>
+              <Label>{t("cosaan.propose.labels.durationMin")}</Label>
               <Input type="number" min={15} max={600} value={dureeMin} onChange={(e) => setDureeMin(e.target.value)} />
             </div>
             <div className="space-y-1.5">
-              <Label>Prix (FCFA)</Label>
+              <Label>{t("cosaan.propose.labels.priceFcfa")}</Label>
               <Input type="number" min={0} max={500000} step={500} value={prix} onChange={(e) => setPrix(e.target.value)} />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label>Localisation</Label>
-            <Input maxLength={80} value={lieu} onChange={(e) => setLieu(e.target.value)} placeholder="Ex : Médina, Dakar" />
+            <Label>{t("cosaan.propose.labels.location")}</Label>
+            <Input maxLength={80} value={lieu} onChange={(e) => setLieu(e.target.value)} placeholder={t("cosaan.propose.placeholders.location")} />
           </div>
           <Button type="submit" className="w-full h-12 rounded-xl bg-gradient-hero text-primary-foreground font-bold mt-2">
-            Publier mon expérience
+            {t("cosaan.propose.submit")}
           </Button>
         </form>
       </DialogContent>

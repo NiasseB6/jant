@@ -2,8 +2,10 @@ import { athletes, epreuvesXibaar } from "@/data/xibaar";
 import { useFavoris } from "@/stores/favoris";
 import { EpreuveCard } from "./EpreuveCard";
 import { Star, Heart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const Favoris = () => {
+  const { t } = useTranslation();
   const { epreuves: epIds, athletes: atIds, toggleAthlete } = useFavoris();
   const favEpreuves = epreuvesXibaar.filter((e) => epIds.includes(e.id));
   const favAthletes = athletes.filter((a) => atIds.includes(a.id));
@@ -14,9 +16,9 @@ export const Favoris = () => {
         <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-hero flex items-center justify-center shadow-warm mb-3">
           <Heart className="h-7 w-7 text-primary-foreground" />
         </div>
-        <h3 className="font-bold text-foreground">Aucun favori pour l'instant</h3>
+        <h3 className="font-bold text-foreground">{t("xibaar.ui.noFavorites")}</h3>
         <p className="text-sm text-muted-foreground mt-1">
-          Touchez l'étoile sur une épreuve ou un athlète pour les retrouver ici.
+          {t("xibaar.ui.addFavorites")}
         </p>
       </div>
     );
@@ -28,7 +30,7 @@ export const Favoris = () => {
         <section>
           <h3 className="text-sm font-bold uppercase tracking-wider text-primary mb-3 flex items-center gap-2">
             <Star className="h-4 w-4 fill-secondary text-secondary" />
-            Épreuves suivies ({favEpreuves.length})
+            {t("xibaar.ui.trackedEvents", { count: favEpreuves.length })}
           </h3>
           <div className="space-y-3">
             {favEpreuves.map((e) => <EpreuveCard key={e.id} e={e} />)}
@@ -40,7 +42,7 @@ export const Favoris = () => {
         <section>
           <h3 className="text-sm font-bold uppercase tracking-wider text-primary mb-3 flex items-center gap-2">
             <Star className="h-4 w-4 fill-secondary text-secondary" />
-            Athlètes suivis ({favAthletes.length})
+            {t("xibaar.ui.trackedAthletes", { count: favAthletes.length })}
           </h3>
           <div className="space-y-2.5">
             {favAthletes.map((a) => (
@@ -50,12 +52,14 @@ export const Favoris = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-bold text-foreground text-sm truncate">{a.prenom} {a.nom} {a.drapeau}</h4>
-                  <p className="text-xs text-muted-foreground truncate">{a.discipline}</p>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {t(`xibaar.athletes.${a.id}.discipline`, { defaultValue: a.discipline })}
+                  </p>
                 </div>
                 <button
                   onClick={() => toggleAthlete(a.id)}
                   className="p-1.5 rounded-full hover:bg-secondary/20"
-                  aria-label="Retirer"
+                  aria-label={t("common.remove")}
                 >
                   <Star className="h-5 w-5 fill-secondary text-secondary" />
                 </button>

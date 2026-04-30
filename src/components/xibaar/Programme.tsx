@@ -14,6 +14,22 @@ export const Programme = () => {
   const [date, setDate] = useState(dates[0]);
   const [sport, setSport] = useState("Tous");
 
+  const getSportKey = (s: string) => {
+    const map: Record<string, string> = {
+      "Tous": "all",
+      "Athlétisme": "athletics",
+      "Basketball": "basketball",
+      "Lutte": "wrestling",
+      "Natation": "swimming",
+      "Taekwondo": "taekwondo",
+      "Cyclisme": "cycling",
+      "Football": "football",
+      "Judo": "judo",
+      "Beach Volley": "beachVolley",
+    };
+    return map[s] || "all";
+  };
+
   const filtered = epreuvesXibaar.filter(
     (e) => e.date === date && (sport === "Tous" || e.sport === sport)
   );
@@ -63,19 +79,19 @@ export const Programme = () => {
                   : "bg-muted text-muted-foreground"
               )}
             >
-              {s}
+              {t(`xibaar.sports.${getSportKey(s)}`)}
             </button>
           ))}
         </div>
       </div>
 
       <p className="text-xs text-muted-foreground">
-        {t("xibaar.eventsCount", { count: filtered.length })} • {formatJour(date, i18n.language)}
+        {t("xibaar.ui.eventsCount", { count: filtered.length })} • {formatJour(date, i18n.language)}
       </p>
 
       <div className="space-y-3">
         {filtered.length === 0 ? (
-          <p className="text-center text-sm text-muted-foreground py-8">{t("xibaar.noEvents")}</p>
+          <p className="text-center text-sm text-muted-foreground py-8">{t("xibaar.ui.noEvents")}</p>
         ) : (
           filtered.map((e) => <EpreuveCard key={e.id} e={e} />)
         )}

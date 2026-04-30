@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Flame } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { actualites } from "@/data/xibaar";
 
 export const UneCard = () => {
+  const { t } = useTranslation();
   const une = actualites[0];
   return (
     <section className="px-5 mt-6 animate-fade-in">
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-lg font-bold flex items-center gap-2">
           <Flame className="h-5 w-5 text-primary" />
-          À la une
+          {t("xibaar.ui.topStory")}
         </h2>
         <span className="text-[10px] font-bold uppercase tracking-wider text-primary">
-          Top story
+          {t("xibaar.ui.topStoryBadge")}
         </span>
       </div>
 
@@ -38,7 +40,7 @@ export const UneCard = () => {
             {une.extrait}
           </p>
           <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/30 group-hover:bg-white/25 transition">
-            Lire l'article
+            {t("xibaar.ui.readMore")}
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </div>
         </div>

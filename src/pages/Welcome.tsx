@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Flame, LogIn, UserPlus, ArrowRight } from "lucide-react";
+import { LogIn, UserPlus, ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useGuest } from "@/contexts/GuestContext";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import monument from "@/assets/home-monument.jpg";
+import logoJant from "@/assets/logo-jant.png";
 
 const Welcome = () => {
   const navigate = useNavigate();
@@ -20,10 +21,9 @@ const Welcome = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <LanguageSwitcher />
       <img
         src={monument}
-        alt="Monument de la Renaissance africaine, Dakar"
+        alt={t("welcome.heroImageAlt")}
         className="absolute inset-0 w-full h-full object-cover"
       />
       <div
@@ -35,13 +35,18 @@ const Welcome = () => {
       />
 
       <div className="relative min-h-screen flex flex-col px-6 py-10 max-w-md mx-auto">
-        <div className="flex items-center gap-2 animate-fade-in">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-warm">
-            <Flame className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.25em] text-white/80 font-bold">JOJ Dakar 2026</p>
-            <h1 className="text-xl font-black text-white">JANT</h1>
+        <div className="flex justify-end">
+          <LanguageSwitcher />
+        </div>
+        <div className="flex items-center gap-3 animate-fade-in">
+          <img
+            src={logoJant}
+            alt="JANT"
+            className="h-14 w-auto drop-shadow-[0_10px_30px_rgba(0,0,0,0.55)] select-none"
+            draggable={false}
+          />
+          <div className="leading-tight">
+            <p className="text-[10px] uppercase tracking-[0.25em] text-white/80 font-bold">{t("welcome.headerKicker")}</p>
           </div>
         </div>
 
@@ -50,7 +55,7 @@ const Welcome = () => {
             className="text-[11px] uppercase tracking-[0.32em] text-white/90 font-bold mb-3"
             style={{ textShadow: "0 2px 6px rgba(0,0,0,0.7)" }}
           >
-            Dalal ak Jàmm 🇸🇳
+            {t("welcome.kicker")}
           </p>
           <h2
             className="text-4xl sm:text-5xl font-black text-white leading-[1.05] tracking-tight"
@@ -60,10 +65,10 @@ const Welcome = () => {
               letterSpacing: "-0.02em",
             }}
           >
-            La flamme des Jeux <span style={{ color: "#FF6B00" }}>commence ici</span>.
+            {t("welcome.title")} <span style={{ color: "#FF6B00" }}>{t("welcome.titleAccent")}</span>.
           </h2>
           <p className="text-sm text-white/85 mt-3 max-w-[90%]" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}>
-            Suis l'événement, découvre Dakar et rejoins la communauté Jambaar.
+            {t("welcome.description")}
           </p>
 
           <div className="mt-8 space-y-3 animate-fade-in">
@@ -88,7 +93,7 @@ const Welcome = () => {
           </div>
 
           <p className="text-center text-[11px] text-white/60 mt-6">
-            En mode invité, tu pourras explorer mais pas participer à Jambaar.
+            {t("welcome.guestNote")}
           </p>
         </div>
       </div>

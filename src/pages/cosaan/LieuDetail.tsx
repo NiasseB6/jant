@@ -18,7 +18,12 @@ const LieuDetail = () => {
 
   return (
     <div className="animate-fade-in pb-32">
-      <DetailHeader image={lieu.image} titre={lieu.titre} sousTitre={lieu.sousTitre} badge={t("cosaan.placeBadge")} />
+      <DetailHeader 
+        image={lieu.image} 
+        titre={t(lieu.titre)} 
+        sousTitre={t(lieu.sousTitre)} 
+        badge={t("cosaan.placeBadge")} 
+      />
 
       {/* Stats */}
       <section className="px-5 mt-5 grid grid-cols-2 gap-3">
@@ -31,7 +36,7 @@ const LieuDetail = () => {
         <div className="bg-card rounded-2xl p-4 shadow-soft border border-border/50">
           <Clock className="h-4 w-4 text-primary mb-1" />
           <p className="text-[11px] text-muted-foreground">{t("cosaan.trip")}</p>
-          <p className="font-bold text-foreground text-sm leading-tight">{lieu.tempsTrajet}</p>
+          <p className="font-bold text-foreground text-sm leading-tight">{t(lieu.tempsTrajet)}</p>
         </div>
       </section>
 
@@ -43,7 +48,7 @@ const LieuDetail = () => {
             <img
               key={i}
               src={src}
-              alt={`${lieu.titre} ${i + 1}`}
+              alt={`${t(lieu.titre)} ${i + 1}`}
               loading="lazy"
               className="shrink-0 w-64 h-44 object-cover rounded-2xl shadow-soft"
             />
@@ -58,7 +63,7 @@ const LieuDetail = () => {
           <h2 className="font-bold text-foreground">{t("cosaan.history")}</h2>
         </div>
         <div className="bg-card rounded-2xl p-5 shadow-soft border border-border/50">
-          <p className="text-sm text-muted-foreground leading-relaxed">{lieu.histoire}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{t(lieu.histoire)}</p>
         </div>
       </section>
 
@@ -66,7 +71,7 @@ const LieuDetail = () => {
       <section className="px-5 mt-4">
         <div className="bg-gradient-card rounded-2xl p-5 shadow-soft border border-secondary/30">
           <h2 className="font-bold text-foreground mb-2">{t("cosaan.culturalImportance")}</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">{lieu.importance}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{t(lieu.importance)}</p>
         </div>
       </section>
 
@@ -80,7 +85,7 @@ const LieuDetail = () => {
           {lieu.bonAsavoir.map((b, i) => (
             <div key={i} className="flex items-start gap-2 text-sm text-foreground">
               <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-secondary shrink-0" />
-              <span>{b}</span>
+              <span>{t(b)}</span>
             </div>
           ))}
         </div>

@@ -1,6 +1,7 @@
 import { Trophy, Crown, Medal } from "lucide-react";
 import { useJambaar } from "@/stores/jambaar";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 const rankColor = (r: number) => {
   if (r === 1) return "bg-gradient-hero text-primary-foreground";
@@ -10,12 +11,13 @@ const rankColor = (r: number) => {
 };
 
 export const Leaderboard = () => {
+  const { t } = useTranslation();
   const classement = useJambaar((s) => s.classement);
   return (
     <section className="px-5 mt-6">
       <div className="flex items-center gap-2 mb-3">
         <Trophy className="h-5 w-5 text-primary" />
-        <h2 className="text-lg font-bold">Classement Jambaar</h2>
+        <h2 className="text-lg font-bold">{t("leaderboard.title")}</h2>
       </div>
       <div className="bg-card rounded-2xl shadow-soft border border-border/50 overflow-hidden">
         {classement.slice(0, 8).map((c) => {
@@ -35,7 +37,7 @@ export const Leaderboard = () => {
                 <p className={cn("font-semibold text-sm truncate", isMe && "text-primary")}>{c.nom}</p>
                 <p className="text-[11px] text-muted-foreground">{c.niveau}</p>
               </div>
-              <span className="font-bold text-primary tabular-nums text-sm">{c.points} pts</span>
+              <span className="font-bold text-primary tabular-nums text-sm">{t("common.pointsShort", { count: c.points })}</span>
             </div>
           );
         })}

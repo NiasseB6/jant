@@ -3,17 +3,19 @@ import { Sparkles, Zap, MapPin, Languages } from "lucide-react";
 import { useJambaar } from "@/stores/jambaar";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const langueParCategorie: Record<string, string> = {
-  Traduction: "Wolof / Anglais",
-  Transport: "Français",
-  Orientation: "Français / Anglais",
-  "Premiers secours": "Français",
-  Hébergement: "Français",
-  Restauration: "Wolof",
+  Traduction: "jambaar.match.languages.translation",
+  Transport: "jambaar.match.languages.transport",
+  Orientation: "jambaar.match.languages.orientation",
+  "Premiers secours": "jambaar.match.languages.firstAid",
+  Hébergement: "jambaar.match.languages.stay",
+  Restauration: "jambaar.match.languages.food",
 };
 
 export const MatchIntelligent = () => {
+  const { t } = useTranslation();
   const { demandes, helpedIds, helpRequest } = useJambaar();
 
   const suggestions = useMemo(() => {
@@ -33,7 +35,7 @@ export const MatchIntelligent = () => {
 
   const onHelp = (id: string, auteur: string) => {
     helpRequest(id);
-    toast.success(`Tu aides ${auteur} (+50 pts) 🙌`);
+    toast.success(t("jambaar.match.toasts.helping", { name: auteur, points: 50 }));
   };
 
   return (
@@ -43,8 +45,8 @@ export const MatchIntelligent = () => {
           <Zap className="h-4 w-4 text-primary-foreground" />
         </div>
         <div>
-          <h2 className="text-lg font-bold leading-tight">Personnes à aider près de toi</h2>
-          <p className="text-[11px] text-muted-foreground">Suggestions intelligentes pour toi</p>
+          <h2 className="text-lg font-bold leading-tight">{t("jambaar.match.title")}</h2>
+          <p className="text-[11px] text-muted-foreground">{t("jambaar.match.subtitle")}</p>
         </div>
       </div>
 
@@ -71,10 +73,10 @@ export const MatchIntelligent = () => {
                   <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{s.distanceKm} km</span>
                   <span className="flex items-center gap-1">
                     <Languages className="h-3 w-3" />
-                    {langueParCategorie[s.categorie] ?? "Français"}
+                    {t(langueParCategorie[s.categorie] ?? "jambaar.match.languages.default")}
                   </span>
                   <span className="flex items-center gap-1 text-primary font-semibold">
-                    <Sparkles className="h-3 w-3" />Match {Math.round(s.score)}%
+                    <Sparkles className="h-3 w-3" />{t("jambaar.match.matchLabel", { pct: Math.round(s.score) })}
                   </span>
                 </div>
               </div>
@@ -83,7 +85,7 @@ export const MatchIntelligent = () => {
               onClick={() => onHelp(s.id, s.auteur)}
               className="w-full h-9 mt-2.5 rounded-xl bg-gradient-hero text-primary-foreground font-bold text-xs shadow-warm hover:scale-[1.02] transition-transform"
             >
-              J'aide
+              {t("jambaar.helpList.help")}
             </Button>
           </article>
         ))}

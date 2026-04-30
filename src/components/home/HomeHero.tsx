@@ -2,8 +2,10 @@ import { useJambaar } from "@/stores/jambaar";
 import { useMissions } from "@/stores/missions";
 import { getNiveau, getNextThreshold } from "@/data/jambaar";
 import { Flame, Sparkles } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const HomeHero = () => {
+  const { t } = useTranslation();
   const { userName, points } = useJambaar();
   const helpedIds = useJambaar((s) => s.helpedIds);
   const totalAides = useMissions((s) => s.totalAides);
@@ -24,15 +26,15 @@ export const HomeHero = () => {
           {prenom.charAt(0)}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-xs opacity-90 tracking-wider uppercase">Bonjour 👋🏽</p>
+          <p className="text-xs opacity-90 tracking-wider uppercase">{t("homeHero.hello")}</p>
           <h1 className="text-2xl font-black truncate drop-shadow">{prenom}</h1>
           <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-white/25 backdrop-blur-md text-[11px] font-bold border border-white/30">
-            <Flame className="h-3 w-3" /> JAMBAAR actif 🔥
+            <Flame className="h-3 w-3" /> {t("homeHero.active")}
           </span>
         </div>
         <div className="text-right">
           <p className="text-3xl font-black tabular-nums drop-shadow">{points}</p>
-          <p className="text-[10px] uppercase tracking-wider opacity-90">points</p>
+          <p className="text-[10px] uppercase tracking-wider opacity-90">{t("home.points")}</p>
         </div>
       </div>
 
@@ -40,7 +42,7 @@ export const HomeHero = () => {
         <div className="flex items-center justify-between text-xs mb-2">
           <span className="flex items-center gap-1 font-semibold">
             <Sparkles className="h-3.5 w-3.5" />
-            Niveau {niveau} • {aides} action{aides > 1 ? "s" : ""}
+            {t("homeHero.levelLine", { level: niveau, count: aides })}
           </span>
           <span className="font-bold tabular-nums">{progress}%</span>
         </div>
@@ -51,9 +53,7 @@ export const HomeHero = () => {
           />
         </div>
         <p className="text-[11px] mt-2 opacity-95 italic">
-          {aides > 0
-            ? `Tu as déjà aidé ${aides} personne${aides > 1 ? "s" : ""} cette semaine 💛`
-            : "Fais ta première bonne action aujourd'hui 💛"}
+          {aides > 0 ? t("homeHero.helpedThisWeek", { count: aides }) : t("homeHero.firstAction")}
         </p>
       </div>
     </header>

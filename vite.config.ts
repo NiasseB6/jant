@@ -20,12 +20,16 @@ export default defineConfig(({ mode }) => ({
       registerType: "autoUpdate",
       injectRegister: false,
       devOptions: { enabled: false },
-      includeAssets: ["icon-192.png", "icon-512.png", "apple-touch-icon.png"],
+      // Keep this list aligned with `public/` to avoid missing asset references.
+      includeAssets: ["icon-192.png", "icon-512.png", "apple-touch-icon.png", "favicon.ico"],
       manifest: false,
       workbox: {
         cleanupOutdatedCaches: true,
         clientsClaim: true,
         skipWaiting: true,
+        // Allow precaching slightly larger assets (e.g. touch icons).
+        // Prefer optimizing these files, but this keeps `vite build` from failing.
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         navigateFallback: "/index.html",
         navigateFallbackDenylist: [/^\/~oauth/, /^\/auth/],
         // Keep precache limited to core app shell files.

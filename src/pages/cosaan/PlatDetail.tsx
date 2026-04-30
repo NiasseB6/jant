@@ -14,7 +14,12 @@ const PlatDetail = () => {
 
   return (
     <div className="animate-fade-in pb-8">
-      <DetailHeader image={plat.image} titre={plat.titre} sousTitre={plat.sousTitre} badge={t("cosaan.gastronomyBadge")} />
+      <DetailHeader 
+        image={plat.image} 
+        titre={t(plat.titre)} 
+        sousTitre={t(plat.sousTitre)} 
+        badge={t("cosaan.gastronomyBadge")} 
+      />
 
       {/* Origine & Importance */}
       <section className="px-5 mt-6 space-y-4">
@@ -23,11 +28,11 @@ const PlatDetail = () => {
             <BookOpen className="h-4 w-4 text-primary" />
             <h2 className="font-bold text-foreground">{t("cosaan.origin")}</h2>
           </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">{plat.origine}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{t(plat.origine)}</p>
         </div>
         <div className="bg-gradient-card rounded-2xl p-5 shadow-soft border border-secondary/30">
           <h2 className="font-bold text-foreground mb-2">{t("cosaan.culturalImportance")}</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">{plat.importance}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{t(plat.importance)}</p>
         </div>
       </section>
 
@@ -42,7 +47,7 @@ const PlatDetail = () => {
             {plat.ingredients.map((ing, i) => (
               <li key={i} className="flex items-start gap-2 text-sm text-foreground">
                 <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                <span>{ing}</span>
+                <span>{t(ing)}</span>
               </li>
             ))}
           </ul>
@@ -64,7 +69,7 @@ const PlatDetail = () => {
               <div className="shrink-0 w-8 h-8 rounded-full bg-gradient-hero text-primary-foreground font-bold flex items-center justify-center text-sm shadow-warm">
                 {i + 1}
               </div>
-              <p className="text-sm text-foreground leading-relaxed pt-1">{step}</p>
+              <p className="text-sm text-foreground leading-relaxed pt-1">{t(step)}</p>
             </li>
           ))}
         </ol>

@@ -13,9 +13,9 @@ import { useTranslation } from "react-i18next";
 type Tab = "aide" | "remerciement" | "communaute";
 
 const tabs: { id: Tab; label: string; icon: typeof HandHeart; color: string }[] = [
-  { id: "aide", label: "J'ai aidé", icon: HandHeart, color: "bg-deep-green/15 text-deep-green" },
-  { id: "remerciement", label: "Merci", icon: Sparkles, color: "bg-secondary/30 text-secondary-foreground" },
-  { id: "communaute", label: "Partager", icon: Megaphone, color: "bg-primary/15 text-primary" },
+  { id: "aide", label: "jambaar.tabs.helped", icon: HandHeart, color: "bg-deep-green/15 text-deep-green" },
+  { id: "remerciement", label: "jambaar.tabs.thanks", icon: Sparkles, color: "bg-secondary/30 text-secondary-foreground" },
+  { id: "communaute", label: "jambaar.tabs.share", icon: Megaphone, color: "bg-primary/15 text-primary" },
 ];
 
 export const PostComposer = () => {
@@ -39,7 +39,7 @@ export const PostComposer = () => {
 
   const onSubmit = () => {
     if (!texte.trim()) {
-      toast.error("Écris un message avant de publier");
+      toast.error(t("jambaar.composer.writeBeforePublish"));
       return;
     }
     addPost({
@@ -87,7 +87,7 @@ export const PostComposer = () => {
                 )}
               >
                 <Icon className="h-4 w-4" />
-                {t.label}
+                {t(t.label)}
               </button>
             );
           })}
@@ -97,7 +97,7 @@ export const PostComposer = () => {
           <Input
             value={nom}
             onChange={(e) => setNom(e.target.value)}
-            placeholder={tab === "aide" ? "Qui as-tu aidé ? (optionnel)" : "Qui veux-tu remercier ?"}
+            placeholder={tab === "aide" ? t("jambaar.composer.helpedWhoOptional") : t("jambaar.composer.thanksWho")}
           />
         )}
 
@@ -105,9 +105,11 @@ export const PostComposer = () => {
           value={texte}
           onChange={(e) => setTexte(e.target.value)}
           placeholder={
-            tab === "aide" ? "Raconte ton geste d'entraide…" :
-            tab === "remerciement" ? "Exprime ta gratitude 🙏🏽" :
-            "Un message pour la communauté…"
+            tab === "aide"
+              ? t("jambaar.composer.helpStoryPlaceholder")
+              : tab === "remerciement"
+                ? t("jambaar.composer.thanksPlaceholder")
+                : t("jambaar.composer.communityPlaceholder")
           }
           rows={4}
         />
@@ -124,7 +126,7 @@ export const PostComposer = () => {
           </span>
         </label>
         {imageUrl && (
-          <img src={imageUrl} alt="aperçu" className="w-full h-40 object-cover rounded-xl" />
+          <img src={imageUrl} alt={t("jambaar.composer.imagePreviewAlt")} className="w-full h-40 object-cover rounded-xl" />
         )}
 
         <DialogFooter>

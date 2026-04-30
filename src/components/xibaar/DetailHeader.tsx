@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   image?: string;
@@ -14,6 +15,7 @@ interface Props {
 
 export const DetailHeader = ({ image, emoji, bgClass, badge, titre, sousTitre, children }: Props) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <header className="relative h-[280px] sm:h-[320px] overflow-hidden rounded-b-[2rem] shadow-warm">
       {image ? (
@@ -27,7 +29,7 @@ export const DetailHeader = ({ image, emoji, bgClass, badge, titre, sousTitre, c
       <button
         onClick={() => navigate(-1)}
         className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center text-white hover:bg-white/25 transition"
-        aria-label="Retour"
+        aria-label={t("common.back")}
       >
         <ArrowLeft className="h-5 w-5" />
       </button>

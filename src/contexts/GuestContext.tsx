@@ -22,17 +22,27 @@ export const GuestProvider = ({ children }: { children: ReactNode }) => {
         setIsGuest(true);
         setHasChosen(true);
       }
-    } catch {}
+    } catch (e) {
+      void e;
+    }
   }, []);
 
   const continueAsGuest = () => {
-    try { localStorage.setItem(KEY, "1"); } catch {}
+    try {
+      localStorage.setItem(KEY, "1");
+    } catch (e) {
+      void e;
+    }
     setIsGuest(true);
     setHasChosen(true);
   };
 
   const exitGuest = () => {
-    try { localStorage.removeItem(KEY); } catch {}
+    try {
+      localStorage.removeItem(KEY);
+    } catch (e) {
+      void e;
+    }
     setIsGuest(false);
   };
 

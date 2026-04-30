@@ -14,7 +14,12 @@ const ArtisanatDetail = () => {
 
   return (
     <div className="animate-fade-in pb-8">
-      <DetailHeader image={cat.image} titre={cat.titre} sousTitre={cat.sousTitre} badge={t("cosaan.craftBadge")} />
+      <DetailHeader 
+        image={cat.image} 
+        titre={t(cat.titre)} 
+        sousTitre={t(cat.sousTitre)} 
+        badge={t("cosaan.craftBadge")} 
+      />
 
       {/* Galerie */}
       <section className="px-5 mt-6">
@@ -24,7 +29,7 @@ const ArtisanatDetail = () => {
             <img
               key={i}
               src={src}
-              alt={`${cat.titre} ${i + 1}`}
+              alt={`${t(cat.titre)} ${i + 1}`}
               loading="lazy"
               className="w-full aspect-square object-cover rounded-xl shadow-soft"
             />
@@ -39,7 +44,7 @@ const ArtisanatDetail = () => {
           <h2 className="font-bold text-foreground">{t("cosaan.knowHow")}</h2>
         </div>
         <div className="bg-card rounded-2xl p-5 shadow-soft border border-border/50">
-          <p className="text-sm text-muted-foreground leading-relaxed">{cat.savoirFaire}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{t(cat.savoirFaire)}</p>
         </div>
       </section>
 
@@ -50,7 +55,7 @@ const ArtisanatDetail = () => {
           <h2 className="font-bold text-foreground">{t("cosaan.history")}</h2>
         </div>
         <div className="bg-gradient-card rounded-2xl p-5 shadow-soft border border-secondary/30">
-          <p className="text-sm text-muted-foreground leading-relaxed">{cat.histoire}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{t(cat.histoire)}</p>
         </div>
       </section>
 
@@ -66,7 +71,7 @@ const ArtisanatDetail = () => {
               key={p}
               className="bg-card border border-border/50 rounded-full px-3 py-1.5 text-xs font-semibold text-foreground shadow-soft"
             >
-              {p}
+              {t(p)}
             </span>
           ))}
         </div>
@@ -90,7 +95,7 @@ const ArtisanatDetail = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <h3 className="font-bold text-foreground text-sm truncate">{a.nom}</h3>
-                <p className="text-xs text-muted-foreground truncate">{a.metier}</p>
+                <p className="text-xs text-muted-foreground truncate">{t(a.metier)}</p>
                 <p className="text-[11px] text-muted-foreground flex items-center gap-1">
                   <MapPin className="h-3 w-3" /> {a.ville}
                 </p>

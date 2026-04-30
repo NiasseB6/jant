@@ -26,7 +26,7 @@ const YoonWi = () => {
 
   const locate = () => {
     if (!navigator.geolocation) {
-      toast.error("Géolocalisation indisponible");
+      toast.error(t("yoonwi.geoUnavailable"));
       return;
     }
     setLocating(true);
@@ -34,11 +34,11 @@ const YoonWi = () => {
       (p) => {
         setUserPos([p.coords.latitude, p.coords.longitude]);
         setLocating(false);
-        toast.success("Position trouvée");
+        toast.success(t("yoonwi.geoFound"));
       },
       () => {
         setLocating(false);
-        toast.error("Impossible de récupérer votre position");
+        toast.error(t("yoonwi.geoFailed"));
       },
       { enableHighAccuracy: true, timeout: 8000 }
     );
@@ -71,7 +71,7 @@ const YoonWi = () => {
       </PageHeader>
 
       {/* Carte */}
-      <section className="px-5 -mt-4">
+      <section className="px-5 mt-4">
         <div className="rounded-3xl overflow-hidden shadow-warm border-2 border-card h-[280px] bg-muted">
           <VenueMap
             userPos={userPos}
@@ -145,8 +145,8 @@ const YoonWi = () => {
                     {s.emoji}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-foreground text-sm leading-tight">{s.nom}</h3>
-                    <p className="text-xs text-muted-foreground mt-0.5">{s.sport}</p>
+                    <h3 className="font-bold text-foreground text-sm leading-tight">{t(s.nom)}</h3>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t(s.sport)}</p>
                     <div className="flex items-center gap-3 text-[11px] mt-1">
                       <span className="text-primary font-semibold flex items-center gap-1">
                         <MapPin className="h-3 w-3" />{s.ville}

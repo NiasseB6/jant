@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const TARGET = new Date("2026-10-31T00:00:00").getTime();
 
@@ -24,6 +25,7 @@ const Cell = ({ label, value }: { label: string; value: number | string }) => (
 );
 
 export const Countdown = () => {
+  const { t: tr } = useTranslation();
   const [t, setT] = useState(calc());
   useEffect(() => {
     const i = setInterval(() => setT(calc()), 1000);
@@ -31,10 +33,10 @@ export const Countdown = () => {
   }, []);
   return (
     <div className="flex gap-2 justify-center">
-      <Cell label="Jours" value={t.jours} />
-      <Cell label="Heures" value={t.heures} />
-      <Cell label="Min" value={t.min} />
-      <Cell label="Sec" value={t.sec} />
+      <Cell label={tr("countdown.days")} value={t.jours} />
+      <Cell label={tr("countdown.hours")} value={t.heures} />
+      <Cell label={tr("countdown.minutes")} value={t.min} />
+      <Cell label={tr("countdown.seconds")} value={t.sec} />
     </div>
   );
 };

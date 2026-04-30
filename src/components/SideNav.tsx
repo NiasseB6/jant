@@ -29,10 +29,10 @@ export const SideNav = () => {
     <aside className="hidden lg:flex fixed top-0 left-0 bottom-0 w-64 z-40 flex-col border-r border-border/50 bg-card/70 backdrop-blur-xl">
       <div className="px-6 py-6 border-b border-border/50">
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-bold">
-          JOJ Dakar 2026
+          {t("app.brand.kicker")}
         </p>
         <h1 className="text-2xl font-black bg-gradient-hero bg-clip-text text-transparent">
-          JANT
+          {t("app.brand.name")}
         </h1>
       </div>
       <nav className="flex-1 px-3 py-4 space-y-1">
@@ -77,7 +77,7 @@ export const SideNav = () => {
             <span className="flex-1 text-left">{t("app.auth.signIn")}</span>
           </button>
         )}
-        <p className="px-3 py-2 text-[10px] text-muted-foreground">© 2026 · Dalal ak Jàmm 🇸🇳</p>
+        <p className="px-3 py-2 text-[10px] text-muted-foreground">© 2026 · {t("app.brand.tagline")}</p>
       </div>
     </aside>
   );

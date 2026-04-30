@@ -4,14 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Heart, MapPin, Check, Clock, Tag } from "lucide-react";
 import { useJambaar } from "@/stores/jambaar";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 export const HelpListSheet = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { demandes, helpedIds, helpRequest } = useJambaar();
 
   const onHelp = (id: string, auteur: string) => {
     helpRequest(id);
-    toast.success(`Merci ! Vous aidez ${auteur} (+50 pts)`);
+    toast.success(t("jambaar.helpList.toasts.helping", { name: auteur, points: 50 }));
   };
 
   return (
@@ -19,13 +21,13 @@ export const HelpListSheet = () => {
       <SheetTrigger asChild>
         <Button variant="outline" className="w-full h-14 border-2 border-secondary text-foreground font-bold text-base rounded-2xl bg-gradient-card hover:bg-secondary/10">
           <Heart className="mr-2 h-5 w-5 text-primary" />
-          Aider
+          {t("jambaar.helpList.cta")}
         </Button>
       </SheetTrigger>
       <SheetContent side="bottom" className="rounded-t-3xl max-h-[85vh] overflow-y-auto">
         <SheetHeader className="text-left">
-          <SheetTitle className="text-xl">Demandes proches</SheetTitle>
-          <p className="text-xs text-muted-foreground">{demandes.length} demandes autour de vous</p>
+          <SheetTitle className="text-xl">{t("jambaar.helpList.title")}</SheetTitle>
+          <p className="text-xs text-muted-foreground">{t("jambaar.helpList.count", { count: demandes.length })}</p>
         </SheetHeader>
         <div className="space-y-3 mt-4 pb-6">
           {demandes.map((d) => {
@@ -59,7 +61,14 @@ export const HelpListSheet = () => {
                       : "w-full h-10 rounded-xl bg-gradient-hero text-primary-foreground font-bold shadow-warm"
                   }
                 >
-                  {helped ? <><Check className="mr-1.5 h-4 w-4" />Vous aidez</> : "J'aide"}
+                  {helped ? (
+                    <>
+                      <Check className="mr-1.5 h-4 w-4" />
+                      {t("jambaar.helpList.helping")}
+                    </>
+                  ) : (
+                    t("jambaar.helpList.help")
+                  )}
                 </Button>
               </article>
             );

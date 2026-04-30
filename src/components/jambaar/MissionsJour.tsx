@@ -1,8 +1,10 @@
 import { Target, Check, Gift } from "lucide-react";
 import { MISSIONS_DU_JOUR, useMissions } from "@/stores/missions";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export const MissionsJour = () => {
+  const { t } = useTranslation();
   const { progres, termines, date, reset } = useMissions();
   const today = new Date().toISOString().slice(0, 10);
   if (date !== today) reset();
@@ -15,14 +17,14 @@ export const MissionsJour = () => {
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2">
             <Target className="h-5 w-5 text-primary" />
-            Missions du jour
+            {t("missions.title")}
           </h2>
           <p className="text-xs text-muted-foreground">
-            {completed}/{MISSIONS_DU_JOUR.length} accomplies
+            {t("missions.progress", { done: completed, total: MISSIONS_DU_JOUR.length })}
           </p>
         </div>
         <span className="text-[10px] uppercase tracking-wider font-bold text-secondary bg-secondary/15 px-2 py-1 rounded-full">
-          Reset à minuit
+          {t("missions.reset")}
         </span>
       </div>
 

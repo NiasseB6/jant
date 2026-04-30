@@ -8,21 +8,23 @@ import { useTranslation } from "react-i18next";
 type Card = { id: string; nom: string; type: string; quartier: string; img: string };
 
 const restaurants: Card[] = [
-  { id: "r1", nom: "Pullman Téranga", type: "Restaurant chic · vue mer", quartier: "Plateau, Dakar", img: restoPullman },
-  { id: "r2", nom: "Le Lagon", type: "Vue piscine & jardin", quartier: "Corniche Est", img: hotelPool },
-  { id: "r3", nom: "Radisson Blu", type: "Brasserie & bar", quartier: "Corniche Ouest", img: hotelRadisson },
+  { id: "r1", nom: "Pullman Téranga", type: "yoonwi.servicesItems.r1.type", quartier: "yoonwi.servicesItems.r1.quartier", img: restoPullman },
+  { id: "r2", nom: "Le Lagon", type: "yoonwi.servicesItems.r2.type", quartier: "yoonwi.servicesItems.r2.quartier", img: hotelPool },
+  { id: "r3", nom: "Radisson Blu", type: "yoonwi.servicesItems.r3.type", quartier: "yoonwi.servicesItems.r3.quartier", img: hotelRadisson },
 ];
 
 const pharmacies: Card[] = [
-  { id: "p1", nom: "Pharmacie Guigon", type: "Pharmacie de garde · architecture coloniale", quartier: "Plateau, Dakar", img: pharmaGuigon },
+  { id: "p1", nom: "Pharmacie Guigon", type: "yoonwi.servicesItems.p1.type", quartier: "yoonwi.servicesItems.p1.quartier", img: pharmaGuigon },
 ];
 
 const hotels: Card[] = [
-  { id: "h1", nom: "Radisson Blu Dakar", type: "Hôtel 5★", quartier: "Corniche Ouest", img: hotelRadisson },
-  { id: "h2", nom: "Pullman Téranga", type: "Hôtel 5★ · piscine", quartier: "Plateau", img: hotelPool },
+  { id: "h1", nom: "Radisson Blu Dakar", type: "yoonwi.servicesItems.h1.type", quartier: "yoonwi.servicesItems.h1.quartier", img: hotelRadisson },
+  { id: "h2", nom: "Pullman Téranga", type: "yoonwi.servicesItems.h2.type", quartier: "yoonwi.servicesItems.h2.quartier", img: hotelPool },
 ];
 
-const Carousel = ({ items }: { items: Card[] }) => (
+const Carousel = ({ items }: { items: Card[] }) => {
+  const { t } = useTranslation();
+  return (
   <div className="-mx-5 px-5 overflow-x-auto pb-2">
     <div className="flex gap-3 min-w-min">
       {items.map((c) => (
@@ -45,17 +47,18 @@ const Carousel = ({ items }: { items: Card[] }) => (
             <h4 className="font-bold text-sm text-foreground leading-tight line-clamp-1">
               {c.nom}
             </h4>
-            <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{c.type}</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-1">{t(c.type)}</p>
             <p className="text-[11px] text-primary font-semibold mt-1 flex items-center gap-1">
               <MapPin className="h-3 w-3" />
-              {c.quartier}
+              {t(c.quartier)}
             </p>
           </div>
         </article>
       ))}
     </div>
   </div>
-);
+  );
+};
 
 export const ServicesSection = () => {
   const { t } = useTranslation();

@@ -2,6 +2,7 @@ import { useJambaar } from "@/stores/jambaar";
 import { useNavigate } from "react-router-dom";
 import { Trophy, Crown, Medal, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 const rankColor = (r: number) => {
   if (r === 1) return "bg-gradient-hero text-primary-foreground";
@@ -11,6 +12,7 @@ const rankColor = (r: number) => {
 };
 
 export const HomeLeaderboard = () => {
+  const { t } = useTranslation();
   const classement = useJambaar((s) => s.classement);
   const navigate = useNavigate();
   const top = classement.slice(0, 3);
@@ -20,10 +22,10 @@ export const HomeLeaderboard = () => {
     <section className="px-5 mt-6">
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-lg font-bold flex items-center gap-2">
-          <Trophy className="h-5 w-5 text-primary" /> Classement JAMBAAR
+          <Trophy className="h-5 w-5 text-primary" /> {t("homeLeaderboard.title")}
         </h2>
         <button onClick={() => navigate("/jambaar")} className="text-xs font-semibold text-primary flex items-center gap-0.5">
-          Voir tout <ChevronRight className="h-3 w-3" />
+          {t("common.seeAll")} <ChevronRight className="h-3 w-3" />
         </button>
       </div>
       <div className="bg-card rounded-2xl shadow-soft border border-border/50 overflow-hidden">
@@ -36,7 +38,7 @@ export const HomeLeaderboard = () => {
               <p className="font-semibold text-sm truncate">{c.nom}</p>
               <p className="text-[11px] text-muted-foreground">{c.niveau}</p>
             </div>
-            <span className="font-bold text-primary tabular-nums text-sm">{c.points} pts</span>
+            <span className="font-bold text-primary tabular-nums text-sm">{t("common.pointsShort", { count: c.points })}</span>
           </div>
         ))}
         {me && (
@@ -46,9 +48,11 @@ export const HomeLeaderboard = () => {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-sm text-primary truncate">{me.nom}</p>
-              <p className="text-[11px] text-muted-foreground">Continue, plus que {Math.max(0, top[2].points - me.points + 1)} pts pour entrer dans le top 3 🚀</p>
+              <p className="text-[11px] text-muted-foreground">
+                {t("homeLeaderboard.encourage", { points: Math.max(0, top[2].points - me.points + 1) })}
+              </p>
             </div>
-            <span className="font-bold text-primary tabular-nums text-sm">{me.points} pts</span>
+            <span className="font-bold text-primary tabular-nums text-sm">{t("common.pointsShort", { count: me.points })}</span>
           </div>
         )}
       </div>

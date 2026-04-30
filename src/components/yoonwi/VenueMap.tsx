@@ -3,6 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { Site } from "@/data/sites";
+import { useTranslation } from "react-i18next";
 
 const venueIcon = L.divIcon({
   className: "",
@@ -84,12 +85,13 @@ type Props = {
 };
 
 export const VenueMap = ({ userPos, selected, sites, onSelect }: Props) => {
+  const { t } = useTranslation();
   return (
     <MapContainer
       center={userPos ?? [14.7167, -17.3]}
       zoom={11}
       scrollWheelZoom={false}
-      className="h-full w-full"
+      className="h-full w-full position-relative"
     >
       <TileLayer
         attribution='&copy; OpenStreetMap'
@@ -97,7 +99,7 @@ export const VenueMap = ({ userPos, selected, sites, onSelect }: Props) => {
       />
       {userPos && (
         <Marker position={userPos} icon={userIcon}>
-          <Popup>Vous êtes ici</Popup>
+          <Popup>{t("yoonwi.youAreHere")}</Popup>
         </Marker>
       )}
       {sites.map((s) => (

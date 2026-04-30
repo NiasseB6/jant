@@ -19,11 +19,31 @@ const AthleteDetailPage = () => {
   const fav = isAthlete(a.id);
   const prochaines = a.prochaines.map((eid) => epreuvesXibaar.find((e) => e.id === eid)).filter(Boolean);
 
+  const getSportKey = (sport: string) => {
+    const map: Record<string, string> = {
+      "Athlétisme": "athletics",
+      "Basketball": "basketball",
+      "Lutte": "wrestling",
+      "Natation": "swimming",
+      "Taekwondo": "taekwondo",
+      "Cyclisme": "cycling",
+      "Football": "football",
+      "Judo": "judo",
+      "Beach Volley": "beachVolley",
+    };
+    return map[sport] || "all";
+  };
+
   return (
     <div className="animate-fade-in pb-32">
-      <DetailHeader image={extras?.photo} badge={t("xibaar.athleteBadge")} titre={`${a.prenom} ${a.nom}`} sousTitre={`${a.drapeau} ${a.pays}`}>
+      <DetailHeader 
+        image={extras?.photo} 
+        badge={t("xibaar.ui.athleteBadge")} 
+        titre={`${a.prenom} ${a.nom}`} 
+        sousTitre={`${a.drapeau} ${t(`common.countries.${a.pays.toLowerCase()}`, { defaultValue: a.pays })}`}
+      >
         <p className="text-white/90 text-sm mt-1 drop-shadow">
-          {a.discipline} · {a.age} {t("xibaar.yearsOld")}
+          {t(`xibaar.athletes.${a.id}.discipline`, { defaultValue: a.discipline })} · {a.age} {t("common.yearsOld")}
         </p>
       </DetailHeader>
 
@@ -31,10 +51,12 @@ const AthleteDetailPage = () => {
       <section className="px-5 mt-5">
         <div className="flex items-center gap-2 mb-2">
           <Sparkles className="h-4 w-4 text-primary" />
-          <h2 className="font-bold text-foreground">{t("xibaar.biography")}</h2>
+          <h2 className="font-bold text-foreground">{t("xibaar.ui.bio")}</h2>
         </div>
         <div className="bg-card rounded-2xl p-5 shadow-soft border border-border/50">
-          <p className="text-sm text-muted-foreground leading-relaxed">{a.bio}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {t(`xibaar.athletes.${a.id}.bio`, { defaultValue: a.bio })}
+          </p>
         </div>
       </section>
 
@@ -43,7 +65,7 @@ const AthleteDetailPage = () => {
         <section className="px-5 mt-6">
           <div className="flex items-center gap-2 mb-3">
             <MapPin className="h-4 w-4 text-primary" />
-            <h2 className="font-bold text-foreground">{t("xibaar.journey")}</h2>
+            <h2 className="font-bold text-foreground">{t("xibaar.ui.path")}</h2>
           </div>
           <div className="relative pl-5 space-y-3 before:absolute before:left-1.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-secondary/40">
             {extras.parcours.map((p, i) => (
@@ -51,7 +73,9 @@ const AthleteDetailPage = () => {
                 <span className="absolute -left-[18px] top-1.5 w-3 h-3 rounded-full bg-gradient-hero shadow-warm border-2 border-background" />
                 <div className="bg-card rounded-xl p-3 shadow-soft border border-border/50">
                   <p className="text-xs font-black text-primary tabular-nums">{p.annee}</p>
-                  <p className="text-sm text-foreground">{p.etape}</p>
+                  <p className="text-sm text-foreground">
+                    {t(`xibaar.athletes.${a.id}.parcours.${i}`, { defaultValue: p.etape })}
+                  </p>
                 </div>
               </div>
             ))}
@@ -63,13 +87,15 @@ const AthleteDetailPage = () => {
       <section className="px-5 mt-6">
         <div className="flex items-center gap-2 mb-3">
           <Trophy className="h-4 w-4 text-primary" />
-          <h2 className="font-bold text-foreground">{t("xibaar.trophies")}</h2>
+          <h2 className="font-bold text-foreground">{t("xibaar.ui.performances")}</h2>
         </div>
         <div className="space-y-2">
           {a.performances.map((p, i) => (
             <div key={i} className="bg-gradient-card rounded-xl p-3 shadow-soft border border-secondary/30 flex items-center gap-3">
               <span className="shrink-0 text-xs font-black text-primary tabular-nums bg-card rounded-lg px-2 py-1 border border-border/50">{p.annee}</span>
-              <span className="text-sm text-foreground font-medium">🏆 {p.titre}</span>
+              <span className="text-sm text-foreground font-medium">
+                🏆 {t(`xibaar.athletes.${a.id}.performances.${i}`, { defaultValue: p.titre })}
+              </span>
             </div>
           ))}
         </div>
@@ -79,7 +105,7 @@ const AthleteDetailPage = () => {
       <section className="px-5 mt-6">
         <div className="flex items-center gap-2 mb-3">
           <Calendar className="h-4 w-4 text-primary" />
-          <h2 className="font-bold text-foreground">{t("xibaar.upcomingEvents")}</h2>
+          <h2 className="font-bold text-foreground">{t("xibaar.ui.upcomingEvents")}</h2>
         </div>
         <div className="space-y-2.5">
           {prochaines.map((e) => e && (
@@ -93,9 +119,11 @@ const AthleteDetailPage = () => {
                   {e.emoji}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="font-bold text-sm text-foreground truncate">{e.discipline}</p>
+                  <p className="font-bold text-sm text-foreground truncate">
+                    {t(`xibaar.epreuves.${e.id}.discipline`, { defaultValue: e.discipline })}
+                  </p>
                   <p className="text-[11px] text-muted-foreground capitalize">
-                    {formatJour(e.date, i18n.language)} · {e.heure} · {e.lieu}
+                    {formatJour(e.date, i18n.language)} · {e.heure} · {t(`xibaar.epreuves.${e.id}.lieu`, { defaultValue: e.lieu })}
                   </p>
                 </div>
               </div>
@@ -110,7 +138,11 @@ const AthleteDetailPage = () => {
           size="lg"
           onClick={() => {
             toggleAthlete(a.id);
-            toast.success(fav ? t("xibaar.removedFavorites") : `Tu suis ${a.prenom} ${a.nom} ⭐`);
+            toast.success(
+              fav
+                ? t("xibaar.ui.removedFavorites")
+                : t("xibaar.ui.followToast", { name: `${a.prenom} ${a.nom}` })
+            );
           }}
           className={cn(
             "w-full h-12 rounded-full font-bold shadow-warm",
@@ -118,7 +150,7 @@ const AthleteDetailPage = () => {
           )}
         >
           <Star className={cn("h-4 w-4 mr-2", fav && "fill-secondary text-secondary")} />
-          {fav ? t("xibaar.unfollow") : t("xibaar.followAthlete")}
+          {fav ? t("xibaar.ui.unfollow") : t("xibaar.ui.followAthlete")}
         </Button>
       </div>
     </div>

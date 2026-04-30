@@ -27,7 +27,7 @@ const Index = () => {
         {/* Image NETTE — pas de blur, pas de filtre */}
         <img
           src={monument}
-          alt="Monument de la Renaissance africaine au coucher du soleil, Dakar"
+          alt={t("index.heroImageAlt")}
           className="absolute inset-0 w-full h-full object-cover select-none"
           draggable={false}
         />
@@ -71,7 +71,7 @@ const Index = () => {
               className="text-[11px] uppercase tracking-[0.32em] text-white font-bold opacity-0 animate-[heroUp_0.7s_ease-out_0.05s_forwards]"
               style={{ textShadow: "0 2px 6px rgba(0,0,0,0.7)" }}
             >
-              JOJ Dakar <span className="text-primary">2026</span>
+              {t("index.headerKicker")}
             </p>
 
             <h1
@@ -82,15 +82,16 @@ const Index = () => {
                 letterSpacing: "-0.02em",
               }}
             >
-              Dalal ak Jàmm 🇸🇳
+              {t("index.title")}
             </h1>
 
             <p
               className="text-base sm:text-lg text-white/95 max-w-[92%] opacity-0 animate-[heroUp_0.8s_ease-out_0.36s_forwards]"
               style={{ textShadow: "0 2px 6px rgba(0,0,0,0.65)" }}
             >
-              Bienvenue sur <span className="font-black" style={{ color: "#FF6B00" }}>JANT</span>
-              {" "}— la flamme des Jeux Olympiques de la Jeunesse.
+              {t("index.welcome")}{" "}
+              <span className="font-black" style={{ color: "#FF6B00" }}>JANT</span>{" "}
+              {t("index.welcomeSuffix")}
             </p>
           </div>
 
@@ -100,7 +101,7 @@ const Index = () => {
               className="text-center text-[10px] text-white/85 mt-3 tracking-[0.22em] font-bold"
               style={{ textShadow: "0 1px 4px rgba(0,0,0,0.7)" }}
             >
-              JUSQU'À LA CÉRÉMONIE D'OUVERTURE
+              {t("index.countdownLabel")}
             </p>
           </div>
         </div>

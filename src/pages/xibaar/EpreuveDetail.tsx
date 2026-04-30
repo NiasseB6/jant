@@ -24,12 +24,38 @@ const EpreuveDetailPage = () => {
   const fav = isEpreuve(e.id);
   const participants = (e.participants ?? []).map((aid) => athletes.find((a) => a.id === aid)).filter(Boolean);
 
+  const getSportKey = (sport: string) => {
+    const map: Record<string, string> = {
+      "Athlétisme": "athletics",
+      "Basketball": "basketball",
+      "Lutte": "wrestling",
+      "Natation": "swimming",
+      "Taekwondo": "taekwondo",
+      "Cyclisme": "cycling",
+      "Football": "football",
+      "Judo": "judo",
+      "Beach Volley": "beachVolley",
+    };
+    return map[sport] || "all";
+  };
+
+  const statutKeys: Record<string, string> = {
+    "à venir": "upcoming",
+    "en cours": "ongoing",
+    "terminé": "finished",
+  };
+
   return (
     <div className="animate-fade-in pb-32">
-      <DetailHeader emoji={e.emoji} badge={t("xibaar.eventBadge")} titre={e.discipline} sousTitre={e.sport}>
+      <DetailHeader 
+        emoji={e.emoji} 
+        badge={t("xibaar.ui.eventBadge")} 
+        titre={t(`xibaar.epreuves.${e.id}.discipline`, { defaultValue: e.discipline })} 
+        sousTitre={t(`xibaar.sports.${getSportKey(e.sport)}`)}
+      >
         <div className="mt-2">
           <span className={cn("inline-block text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border", statutStyle[e.statut])}>
-            {e.statut}
+            {t(`xibaar.status.${statutKeys[e.statut]}`)}
           </span>
         </div>
       </DetailHeader>
@@ -38,18 +64,20 @@ const EpreuveDetailPage = () => {
       <section className="px-5 mt-5 grid grid-cols-3 gap-2.5">
         <div className="bg-card rounded-2xl p-3 shadow-soft border border-border/50">
           <Calendar className="h-4 w-4 text-primary mb-1" />
-          <p className="text-[10px] text-muted-foreground uppercase">{t("xibaar.date")}</p>
+          <p className="text-[10px] text-muted-foreground uppercase">{t("xibaar.ui.date")}</p>
           <p className="text-xs font-bold text-foreground capitalize leading-tight">{formatJour(e.date, i18n.language)}</p>
         </div>
         <div className="bg-card rounded-2xl p-3 shadow-soft border border-border/50">
           <Clock className="h-4 w-4 text-primary mb-1" />
-          <p className="text-[10px] text-muted-foreground uppercase">{t("xibaar.time")}</p>
+          <p className="text-[10px] text-muted-foreground uppercase">{t("xibaar.ui.time")}</p>
           <p className="text-xs font-bold text-foreground">{e.heure}</p>
         </div>
         <div className="bg-card rounded-2xl p-3 shadow-soft border border-border/50">
           <MapPin className="h-4 w-4 text-primary mb-1" />
-          <p className="text-[10px] text-muted-foreground uppercase">{t("xibaar.place")}</p>
-          <p className="text-xs font-bold text-foreground leading-tight truncate">{e.lieu}</p>
+          <p className="text-[10px] text-muted-foreground uppercase">{t("xibaar.ui.place")}</p>
+          <p className="text-xs font-bold text-foreground leading-tight truncate">
+            {t(`xibaar.epreuves.${e.id}.lieu`, { defaultValue: e.lieu })}
+          </p>
         </div>
       </section>
 
@@ -58,10 +86,12 @@ const EpreuveDetailPage = () => {
         <section className="px-5 mt-5">
           <div className="flex items-center gap-2 mb-2">
             <Info className="h-4 w-4 text-primary" />
-            <h2 className="font-bold text-foreground">{t("xibaar.aboutEvent")}</h2>
+            <h2 className="font-bold text-foreground">{t("xibaar.ui.aboutEvent")}</h2>
           </div>
           <div className="bg-card rounded-2xl p-5 shadow-soft border border-border/50">
-            <p className="text-sm text-muted-foreground leading-relaxed">{e.description}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {t(`xibaar.epreuves.${e.id}.description`, { defaultValue: e.description })}
+            </p>
           </div>
         </section>
       )}
@@ -70,11 +100,11 @@ const EpreuveDetailPage = () => {
       <section className="px-5 mt-6">
         <div className="flex items-center gap-2 mb-3">
           <Users className="h-4 w-4 text-primary" />
-          <h2 className="font-bold text-foreground">{t("xibaar.participants")}</h2>
+          <h2 className="font-bold text-foreground">{t("xibaar.ui.participants")}</h2>
           <span className="text-xs text-muted-foreground">({participants.length})</span>
         </div>
         {participants.length === 0 ? (
-          <p className="text-xs text-muted-foreground italic">{t("xibaar.listSoon")}</p>
+          <p className="text-xs text-muted-foreground italic">{t("xibaar.ui.listSoon")}</p>
         ) : (
           <div className="space-y-2.5">
             {participants.map((a) => a && (
@@ -90,7 +120,9 @@ const EpreuveDetailPage = () => {
                   <p className="font-bold text-sm text-foreground truncate">
                     {a.prenom} {a.nom} <span className="text-base">{a.drapeau}</span>
                   </p>
-                  <p className="text-xs text-muted-foreground truncate">{a.discipline} · {a.age} ans</p>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {t(`xibaar.athletes.${a.id}.discipline`, { defaultValue: a.discipline })} · {a.age} {t("common.yearsOld")}
+                  </p>
                 </div>
               </Link>
             ))}
@@ -104,7 +136,7 @@ const EpreuveDetailPage = () => {
           size="lg"
           onClick={() => {
             toggleEpreuve(e.id);
-            toast.success(fav ? t("xibaar.removedFavorites") : `${t("xibaar.addedFavorites")} ⭐`);
+            toast.success(fav ? t("xibaar.ui.removedFavorites") : `${t("xibaar.ui.addedFavorites")} ⭐`);
           }}
           className={cn(
             "w-full h-12 rounded-full font-bold shadow-warm",
@@ -112,7 +144,7 @@ const EpreuveDetailPage = () => {
           )}
         >
           <Star className={cn("h-4 w-4 mr-2", fav && "fill-secondary text-secondary")} />
-          {fav ? t("xibaar.removeFavorites") : t("xibaar.addFavorites")}
+          {fav ? t("xibaar.ui.removeFavorites") : t("xibaar.ui.addFavorites")}
         </Button>
       </div>
     </div>

@@ -12,46 +12,6 @@ import { Flame, Mail, Lock, User as UserIcon, Globe2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
-const signUpSchema = z.object({
-  prenom: z.string().trim().min(1, "Prénom requis").max(60),
-  nom: z.string().trim().min(1, "Nom requis").max(60),
-  pays: z.string().trim().min(2).max(60),
-  email: z.string().trim().email("Email invalide").max(255),
-  password: z.string().min(6, "Min. 6 caractères").max(72),
-});
-
-const signInSchema = z.object({
-  email: z.string().trim().email("Email invalide"),
-  password: z.string().min(6, "Min. 6 caractères"),
-});
-
-const fileToCompressedDataUrl = (file: File, maxSize = 512, quality = 0.82): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const img = new Image();
-      img.onload = () => {
-        const ratio = Math.min(1, maxSize / Math.max(img.width, img.height));
-        const width = Math.max(1, Math.round(img.width * ratio));
-        const height = Math.max(1, Math.round(img.height * ratio));
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-          reject(new Error("Impossible de traiter l'image."));
-          return;
-        }
-        ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL("image/jpeg", quality));
-      };
-      img.onerror = () => reject(new Error("Image invalide."));
-      img.src = String(reader.result);
-    };
-    reader.onerror = () => reject(new Error("Erreur de lecture du fichier."));
-    reader.readAsDataURL(file);
-  });
-
 const Auth = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -63,13 +23,53 @@ const Auth = () => {
   const [busy, setBusy] = useState(false);
   const [avatarDataUrl, setAvatarDataUrl] = useState<string | null>(null);
 
+  const signUpSchema = z.object({
+    prenom: z.string().trim().min(1, t("auth.validation.firstNameRequired")).max(60),
+    nom: z.string().trim().min(1, t("auth.validation.lastNameRequired")).max(60),
+    pays: z.string().trim().min(2, t("auth.validation.countryRequired")).max(60),
+    email: z.string().trim().email(t("auth.validation.invalidEmail")).max(255),
+    password: z.string().min(6, t("auth.validation.passwordMin")).max(72),
+  });
+
+  const signInSchema = z.object({
+    email: z.string().trim().email(t("auth.validation.invalidEmail")),
+    password: z.string().min(6, t("auth.validation.passwordMin")),
+  });
+
   const [form, setForm] = useState({
     prenom: "",
     nom: "",
-    pays: "Sénégal",
+    pays: t("auth.defaultCountry"),
     email: "",
     password: "",
   });
+
+  const fileToCompressedDataUrl = (file: File, maxSize = 512, quality = 0.82): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const ratio = Math.min(1, maxSize / Math.max(img.width, img.height));
+          const width = Math.max(1, Math.round(img.width * ratio));
+          const height = Math.max(1, Math.round(img.height * ratio));
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            reject(new Error(t("auth.imageErrors.noCanvas")));
+            return;
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.onerror = () => reject(new Error(t("auth.imageErrors.invalidImage")));
+        img.src = String(reader.result);
+      };
+      reader.onerror = () => reject(new Error(t("auth.imageErrors.readFailed")));
+      reader.readAsDataURL(file);
+    });
 
   useEffect(() => {
     if (!loading && session) {
@@ -85,7 +85,7 @@ const Auth = () => {
       if (mode === "signup") {
         const parsed = signUpSchema.safeParse(form);
         if (!parsed.success) {
-          toast({ title: "Vérifie tes infos", description: parsed.error.issues[0].message, variant: "destructive" });
+          toast({ title: t("auth.toasts.checkInfoTitle"), description: parsed.error.issues[0].message, variant: "destructive" });
           return;
         }
         const { error } = await supabase.auth.signUp({
@@ -103,11 +103,11 @@ const Auth = () => {
           },
         });
         if (error) throw error;
-        toast({ title: "Bienvenue 👋🏽", description: "Compte créé avec succès." });
+        toast({ title: t("auth.toasts.welcomeTitle"), description: t("auth.toasts.accountCreated"), });
       } else {
         const parsed = signInSchema.safeParse(form);
         if (!parsed.success) {
-          toast({ title: "Vérifie tes infos", description: parsed.error.issues[0].message, variant: "destructive" });
+          toast({ title: t("auth.toasts.checkInfoTitle"), description: parsed.error.issues[0].message, variant: "destructive" });
           return;
         }
         const { error } = await supabase.auth.signInWithPassword({
@@ -117,8 +117,14 @@ const Auth = () => {
         if (error) throw error;
       }
       navigate("/", { replace: true });
-    } catch (err: any) {
-      toast({ title: "Erreur", description: err?.message ?? "Réessaie", variant: "destructive" });
+    } catch (err: unknown) {
+      const description =
+        err instanceof Error
+          ? err.message
+          : typeof err === "string"
+            ? err
+            : t("common.tryAgain");
+      toast({ title: t("common.error"), description, variant: "destructive" });
     } finally {
       setBusy(false);
     }
@@ -130,7 +136,7 @@ const Auth = () => {
       redirect_uri: window.location.origin,
     });
     if (result.error) {
-      toast({ title: "Connexion Google", description: String(result.error.message ?? result.error), variant: "destructive" });
+      toast({ title: t("auth.toasts.googleTitle"), description: String(result.error.message ?? result.error), variant: "destructive" });
       setBusy(false);
       return;
     }
@@ -145,22 +151,30 @@ const Auth = () => {
       return;
     }
     if (!file.type.startsWith("image/")) {
-      toast({ title: "Format invalide", description: "Choisis une image.", variant: "destructive" });
+      toast({ title: t("auth.toasts.invalidFormatTitle"), description: t("auth.toasts.chooseImage"), variant: "destructive" });
       e.target.value = "";
       return;
     }
     try {
       const dataUrl = await fileToCompressedDataUrl(file);
       setAvatarDataUrl(dataUrl);
-    } catch (err: any) {
-      toast({ title: "Erreur image", description: err?.message ?? "Impossible de traiter cette image.", variant: "destructive" });
+    } catch (err: unknown) {
+      const description =
+        err instanceof Error
+          ? err.message
+          : typeof err === "string"
+            ? err
+            : t("auth.toasts.imageProcessFailed");
+      toast({ title: t("auth.toasts.imageErrorTitle"), description, variant: "destructive" });
       e.target.value = "";
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-ambient flex items-center justify-center p-4">
-      <LanguageSwitcher />
+    <div className="min-h-screen bg-gradient-ambient flex flex-col items-center justify-center p-4 gap-4">
+      <div className="w-full max-w-md flex justify-end">
+        <LanguageSwitcher />
+      </div>
       <div className="w-full max-w-md bg-card rounded-3xl shadow-warm border border-border/50 p-6 sm:p-8 animate-fade-in">
         <div className="flex items-center justify-center gap-2 mb-6">
           <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-warm">
@@ -224,10 +238,10 @@ const Auth = () => {
                 />
               </div>
               <div className="rounded-2xl border border-border/60 p-3 bg-muted/30">
-                <p className="text-xs font-semibold mb-2">Photo de profil (optionnel)</p>
+                <p className="text-xs font-semibold mb-2">{t("auth.avatarOptional")}</p>
                 <div className="flex items-center gap-3">
                   {avatarDataUrl ? (
-                    <img src={avatarDataUrl} alt="Aperçu photo de profil" className="w-12 h-12 rounded-full object-cover border border-border" />
+                    <img src={avatarDataUrl} alt={t("auth.avatarPreviewAlt")} className="w-12 h-12 rounded-full object-cover border border-border" />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-sm font-bold text-muted-foreground">
                       ?
@@ -270,7 +284,7 @@ const Auth = () => {
 
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-border" />
-          <span className="text-[11px] uppercase tracking-wider text-muted-foreground">ou</span>
+          <span className="text-[11px] uppercase tracking-wider text-muted-foreground">{t("common.or")}</span>
           <div className="flex-1 h-px bg-border" />
         </div>
 

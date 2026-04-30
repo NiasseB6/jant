@@ -1,17 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { useFeed } from "@/stores/feed";
 import { Heart, MessageCircle, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const RecentActivity = () => {
+  const { t } = useTranslation();
   const allPosts = useFeed((s) => s.posts);
   const posts = allPosts.slice(0, 3);
   const navigate = useNavigate();
   return (
     <section className="px-5 mt-6">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-lg font-bold">Activité récente</h2>
+        <h2 className="text-lg font-bold">{t("homeRecent.title")}</h2>
         <button onClick={() => navigate("/jambaar")} className="text-xs font-semibold text-primary flex items-center gap-0.5">
-          Voir tout <ChevronRight className="h-3 w-3" />
+          {t("common.seeAll")} <ChevronRight className="h-3 w-3" />
         </button>
       </div>
       <div className="space-y-2">

@@ -44,11 +44,15 @@ export const AppLayout = () => (
 
     {/* Side nav for tablets & desktops */}
     <SideNav />
-    <LanguageSwitcher />
 
     {/* Main content: mobile-first column, expands fluidly on larger screens */}
     <main className="relative animate-fade-in lg:pl-64">
       <div className="mx-auto w-full max-w-md sm:max-w-2xl lg:max-w-5xl xl:max-w-6xl pb-24 lg:pb-10 min-h-screen">
+        <header className="sticky top-0 z-40 pt-4 px-5">
+          <div className="flex justify-end">
+            <LanguageSwitcher />
+          </div>
+        </header>
         <Outlet />
       </div>
     </main>

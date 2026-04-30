@@ -11,10 +11,10 @@ import { useTranslation } from "react-i18next";
 type TabKey = "experiences" | "gastro" | "lieux" | "artisanat";
 
 const tabs: { key: TabKey; label: string; icon: typeof UtensilsCrossed; data?: Fiche[] }[] = [
-  { key: "experiences", label: "Expériences", icon: Sparkles },
-  { key: "gastro", label: "Gastronomie", icon: UtensilsCrossed, data: gastronomie },
-  { key: "lieux", label: "Lieux", icon: MapPinned, data: lieux },
-  { key: "artisanat", label: "Artisanat", icon: Palette, data: artisanat },
+  { key: "experiences", label: "experiences", icon: Sparkles },
+  { key: "gastro", label: "gastro", icon: UtensilsCrossed, data: gastronomie },
+  { key: "lieux", label: "lieux", icon: MapPinned, data: lieux },
+  { key: "artisanat", label: "artisanat", icon: Palette, data: artisanat },
 ];
 
 const Cosaan = () => {

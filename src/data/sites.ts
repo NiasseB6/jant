@@ -1,3 +1,5 @@
+import i18n from "i18next";
+
 export type Site = {
   id: string;
   nom: string;
@@ -11,12 +13,12 @@ export type Site = {
 };
 
 export const sites: Site[] = [
-  { id: "s1", nom: "Stade Léopold S. Senghor", ville: "Dakar", sport: "Football, Cérémonies", emoji: "⚽", lat: 14.7456, lng: -17.4416, distanceKm: 6, tempsMin: 18 },
-  { id: "s2", nom: "Dakar Arena", ville: "Diamniadio", sport: "Basketball, Judo", emoji: "🏀", lat: 14.7167, lng: -17.1833, distanceKm: 32, tempsMin: 45 },
-  { id: "s3", nom: "Arène Nationale de Lutte", ville: "Pikine", sport: "Lutte Olympique", emoji: "🤼", lat: 14.7553, lng: -17.3958, distanceKm: 12, tempsMin: 25 },
-  { id: "s4", nom: "Stade Iba Mar Diop", ville: "Dakar", sport: "Athlétisme", emoji: "🏃", lat: 14.6922, lng: -17.4530, distanceKm: 3, tempsMin: 12 },
-  { id: "s5", nom: "Piscine Olympique", ville: "Dakar", sport: "Natation", emoji: "🏊", lat: 14.7000, lng: -17.4644, distanceKm: 4, tempsMin: 14 },
-  { id: "s6", nom: "Site de Saly", ville: "Mbour", sport: "Beach Volley, Voile", emoji: "🏐", lat: 14.4458, lng: -17.0050, distanceKm: 80, tempsMin: 95 },
+  { id: "s1", nom: "data.sites.s1.nom", ville: "Dakar", sport: "data.sites.s1.sport", emoji: "⚽", lat: 14.7456, lng: -17.4416, distanceKm: 6, tempsMin: 18 },
+  { id: "s2", nom: "data.sites.s2.nom", ville: "Diamniadio", sport: "data.sites.s2.sport", emoji: "🏀", lat: 14.7167, lng: -17.1833, distanceKm: 32, tempsMin: 45 },
+  { id: "s3", nom: "data.sites.s3.nom", ville: "Pikine", sport: "data.sites.s3.sport", emoji: "🤼", lat: 14.7553, lng: -17.3958, distanceKm: 12, tempsMin: 25 },
+  { id: "s4", nom: "data.sites.s4.nom", ville: "Dakar", sport: "data.sites.s4.sport", emoji: "🏃", lat: 14.6922, lng: -17.4530, distanceKm: 3, tempsMin: 12 },
+  { id: "s5", nom: "data.sites.s5.nom", ville: "Dakar", sport: "data.sites.s5.sport", emoji: "🏊", lat: 14.7000, lng: -17.4644, distanceKm: 4, tempsMin: 14 },
+  { id: "s6", nom: "data.sites.s6.nom", ville: "Mbour", sport: "data.sites.s6.sport", emoji: "🏐", lat: 14.4458, lng: -17.0050, distanceKm: 80, tempsMin: 95 },
 ];
 
 export type Transport = {
@@ -31,35 +33,35 @@ export type Transport = {
 export const getTransports = (s: Site): Transport[] => [
   {
     id: "t-navette",
-    nom: "Navette JOJ",
+    nom: "data.transports.navette.nom",
     emoji: "🚐",
     tempsMin: Math.round(s.tempsMin * 0.85),
     prixFcfa: 0,
-    note: "Gratuit avec billet JOJ",
+    note: "data.transports.navette.note",
   },
   {
     id: "t-ter",
-    nom: "TER + correspondance",
+    nom: "data.transports.ter.nom",
     emoji: "🚆",
     tempsMin: Math.round(s.tempsMin * 0.7),
     prixFcfa: 1500,
-    note: "Disponible jusqu'à Diamniadio",
+    note: "data.transports.ter.note",
   },
   {
     id: "t-brt",
-    nom: "BRT / Bus DDD",
+    nom: "data.transports.brt.nom",
     emoji: "🚌",
     tempsMin: Math.round(s.tempsMin * 1.2),
     prixFcfa: 500,
-    note: "Climatisé, voie dédiée",
+    note: "data.transports.brt.note",
   },
   {
     id: "t-taxi",
-    nom: "Taxi / VTC",
+    nom: "data.transports.taxi.nom",
     emoji: "🚕",
     tempsMin: s.tempsMin,
     prixFcfa: Math.max(2000, Math.round(s.distanceKm * 350 / 100) * 100),
-    note: "Direct, négociable",
+    note: "data.transports.taxi.note",
   },
 ];
 
@@ -82,10 +84,10 @@ export const getServices = (s: Site): Service[] => [
 ];
 
 export const formatPrix = (n: number) =>
-  n === 0 ? "Gratuit" : new Intl.NumberFormat("fr-FR").format(n) + " FCFA";
+  n === 0 ? i18n.t("data.common.gratuit") : new Intl.NumberFormat(i18n.language === "fr" ? "fr-FR" : "en-US").format(n) + " " + i18n.t("data.common.fcfa");
 
 export const formatTemps = (min: number) => {
   const h = Math.floor(min / 60);
   const m = min % 60;
-  return h ? `${h}h${m.toString().padStart(2, "0")}` : `${m} min`;
+  return h ? `${h}${i18n.t("data.common.hour")}${m.toString().padStart(2, "0")}` : `${m} ${i18n.t("data.common.min")}`;
 };

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Radio, Clock } from "lucide-react";
 import xibaarImg from "@/assets/headers/xibaar.jpg";
+import { useTranslation } from "react-i18next";
 
 export const XibaarHero = () => {
+  const { t, i18n } = useTranslation();
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -10,7 +12,7 @@ export const XibaarHero = () => {
     return () => clearInterval(id);
   }, []);
 
-  const time = now.toLocaleTimeString("fr-FR", {
+  const time = now.toLocaleTimeString(i18n.language.startsWith("fr") ? "fr-FR" : "en-US", {
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "Africa/Dakar",
@@ -41,20 +43,20 @@ export const XibaarHero = () => {
         <div className="flex items-center justify-between mb-4">
           <span className="inline-flex items-center gap-1.5 text-[10px] font-black tracking-[0.2em] px-2.5 py-1 rounded-full bg-red-600 text-white shadow-lg">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            EN DIRECT
+            {t("xibaar.hero.live")}
           </span>
           <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/20">
             <Clock className="h-3 w-3" />
-            Dakar · {time}
+            {t("xibaar.hero.clock", { time })}
           </span>
         </div>
 
         <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-3 border border-white/20 shadow-lg">
           <Radio className="h-5 w-5 text-white" />
         </div>
-        <h1 className="text-4xl font-black tracking-tight drop-shadow-lg">Xibaar</h1>
+        <h1 className="text-4xl font-black tracking-tight drop-shadow-lg">{t("xibaar.hero.title")}</h1>
         <p className="text-white/90 text-sm mt-1.5 drop-shadow-md max-w-md leading-relaxed">
-          Les dernières infos des JOJ Dakar 2026 en temps réel
+          {t("xibaar.hero.subtitle")}
         </p>
       </div>
 

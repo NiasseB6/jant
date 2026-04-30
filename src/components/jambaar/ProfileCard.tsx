@@ -2,6 +2,7 @@ import { Award, Sparkles, MapPin } from "lucide-react";
 import { useJambaar } from "@/stores/jambaar";
 import { getNiveau, getNextThreshold } from "@/data/jambaar";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const niveauStyle: Record<string, string> = {
   Talibé: "bg-muted text-foreground",
@@ -10,6 +11,7 @@ const niveauStyle: Record<string, string> = {
 };
 
 export const ProfileCard = () => {
+  const { t } = useTranslation();
   const { userName, points } = useJambaar();
   const { profile } = useAuth();
   const niveau = getNiveau(points);
@@ -31,7 +33,7 @@ export const ProfileCard = () => {
           )}
           <div className="flex-1 min-w-0">
             <p className="text-xs text-muted-foreground flex items-center gap-1">
-              {profile?.pays ? (<><MapPin className="h-3 w-3" />{profile.pays}</>) : "Bienvenue"}
+              {profile?.pays ? (<><MapPin className="h-3 w-3" />{profile.pays}</>) : t("homeHero.welcomeBack")}
             </p>
             <h2 className="text-xl font-black text-foreground truncate">{userName}</h2>
             <div className="flex items-center gap-2 mt-1">
@@ -42,7 +44,7 @@ export const ProfileCard = () => {
           </div>
           <div className="text-right">
             <p className="text-2xl font-black text-primary tabular-nums">{points}</p>
-            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">points</p>
+            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{t("home.points")}</p>
           </div>
         </div>
 
@@ -50,7 +52,9 @@ export const ProfileCard = () => {
           <div className="flex justify-between text-[11px] mb-1">
             <span className="text-muted-foreground flex items-center gap-1">
               <Sparkles className="h-3 w-3 text-secondary" />
-              {niveau === "Jambaar" ? "Niveau maximum atteint" : `Vers ${niveau === "Talibé" ? "Ndongo" : "Jambaar"}`}
+              {niveau === "Jambaar"
+                ? t("profileCard.maxLevel")
+                : t("profileCard.towards", { level: niveau === "Talibé" ? "Ndongo" : "Jambaar" })}
             </span>
             <span className="font-bold text-foreground">{progress}%</span>
           </div>

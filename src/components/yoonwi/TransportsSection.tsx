@@ -19,8 +19,8 @@ const transports: T[] = [
   {
     id: "ter",
     title: "TER",
-    desc: "Train Express Régional — Dakar ↔ Diamniadio en 25 min",
-    tag: "Rapide",
+    desc: "yoonwi.transportsItems.ter.desc",
+    tag: "yoonwi.transportsItems.ter.tag",
     img: ter,
     Icon: Train,
     accent: "from-emerald-900/80 via-emerald-900/30 to-transparent",
@@ -28,8 +28,8 @@ const transports: T[] = [
   {
     id: "ddd",
     title: "Dakar Dem Dikk",
-    desc: "Bus urbains climatisés, lignes régulières dans toute la capitale",
-    tag: "Disponible",
+    desc: "yoonwi.transportsItems.ddd.desc",
+    tag: "yoonwi.transportsItems.ddd.tag",
     img: demdikk,
     Icon: Bus,
     accent: "from-amber-900/80 via-amber-900/30 to-transparent",
@@ -37,8 +37,8 @@ const transports: T[] = [
   {
     id: "brt",
     title: "BRT",
-    desc: "Bus Rapid Transit — voie dédiée, fréquence élevée",
-    tag: "Nouveau",
+    desc: "yoonwi.transportsItems.brt.desc",
+    tag: "yoonwi.transportsItems.brt.tag",
     img: brt,
     Icon: Bus,
     accent: "from-rose-900/80 via-rose-900/30 to-transparent",
@@ -46,8 +46,8 @@ const transports: T[] = [
   {
     id: "taxi",
     title: "Taxis Dakar",
-    desc: "Taxis jaunes & noirs typiques — courses négociables, partout en ville",
-    tag: "24/7",
+    desc: "yoonwi.transportsItems.taxi.desc",
+    tag: "yoonwi.transportsItems.taxi.tag",
     img: taxi,
     Icon: Car,
     accent: "from-yellow-900/80 via-yellow-900/30 to-transparent",
@@ -86,7 +86,7 @@ export const TransportsSection = () => {
               <div className="absolute top-2.5 right-2.5">
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/95 text-[10px] font-bold text-foreground shadow-sm">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  {tag}
+                  {t(tag)}
                 </span>
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-3 text-white">
@@ -97,7 +97,7 @@ export const TransportsSection = () => {
                   <h3 className="font-black text-base tracking-tight drop-shadow">{title}</h3>
                 </div>
                 <p className="text-[11px] text-white/90 leading-snug line-clamp-2 drop-shadow">
-                  {desc}
+                  {t(desc)}
                 </p>
               </div>
             </div>

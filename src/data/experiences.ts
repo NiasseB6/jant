@@ -1,3 +1,4 @@
+import i18n from "i18next";
 import expCuisine from "@/assets/cosaan/exp-cuisine.jpg";
 import expDanse from "@/assets/cosaan/exp-danse.jpg";
 import expBijoux from "@/assets/cosaan/exp-bijoux.jpg";
@@ -28,7 +29,7 @@ export const CATEGORIES_EXP: CategorieExp[] = ["Cuisine", "Danse", "Artisanat", 
 export const experiences: Experience[] = [
   {
     id: "x1",
-    titre: "Cours de Thiéboudienne en famille",
+    titre: "data.experiences.x1.titre",
     image: expCuisine,
     hote: "Mame Diarra Ndiaye",
     hoteRole: "Cuisinière, Médina",
@@ -36,20 +37,19 @@ export const experiences: Experience[] = [
     dureeMin: 180,
     prix: 15000,
     lieu: "Médina, Dakar",
-    resume: "Préparez le plat national du Sénégal dans la cuisine d'une famille dakaroise.",
-    description:
-      "Mame Diarra vous accueille chez elle pour un cours intime autour du Thiéboudienne. Marché du matin ensemble, choix du poisson frais à Soumbédioune, puis cuisine au feu de bois en partageant histoires et secrets de famille. Le repas se déguste autour du grand bol commun, dans la pure tradition de la téranga.",
+    resume: "data.experiences.x1.resume",
+    description: "data.experiences.x1.description",
     apprentissages: [
-      "Marchander au marché comme un local",
-      "Préparer la sauce tomate aux légumes",
-      "Réussir le riz cassé parfait",
-      "Servir et manger autour du bol",
+      "data.experiences.x1.learn.0",
+      "data.experiences.x1.learn.1",
+      "data.experiences.x1.learn.2",
+      "data.experiences.x1.learn.3",
     ],
     galerie: [expCuisine, expVisite],
   },
   {
     id: "x2",
-    titre: "Initiation au Yassa Poulet",
+    titre: "data.experiences.x2.titre",
     image: expCuisine,
     hote: "Aminata Sarr",
     hoteRole: "Cheffe casamançaise",
@@ -57,15 +57,19 @@ export const experiences: Experience[] = [
     dureeMin: 120,
     prix: 12000,
     lieu: "Ngor, Dakar",
-    resume: "Découvrez les secrets du Yassa de Casamance, citronné et caramélisé.",
-    description:
-      "Aminata partage la recette transmise par sa grand-mère à Ziguinchor. Vous apprendrez la marinade longue, le confisage des oignons et la cuisson du poulet sur braise. Repas partagé sur la terrasse face à la mer.",
-    apprentissages: ["La marinade au citron", "Caraméliser les oignons", "Cuisson au charbon", "Sauce d'accompagnement"],
+    resume: "data.experiences.x2.resume",
+    description: "data.experiences.x2.description",
+    apprentissages: [
+      "data.experiences.x2.learn.0",
+      "data.experiences.x2.learn.1",
+      "data.experiences.x2.learn.2",
+      "data.experiences.x2.learn.3",
+    ],
     galerie: [expCuisine],
   },
   {
     id: "x3",
-    titre: "Atelier Mafé sénégalais",
+    titre: "data.experiences.x3.titre",
     image: expCuisine,
     hote: "Ndèye Fatou Ba",
     hoteRole: "Cuisinière à domicile",
@@ -73,15 +77,19 @@ export const experiences: Experience[] = [
     dureeMin: 150,
     prix: 13000,
     lieu: "Sacré-Cœur, Dakar",
-    resume: "Sauce d'arachide onctueuse, viande mijotée et légumes : le Mafé en 2h30.",
-    description:
-      "Ndèye Fatou vous transmet sa version familiale du Mafé : équilibre des arachides pilées, choix de la viande et longue cuisson à feu doux. Vous repartez avec la recette et de quoi ramener à la maison.",
-    apprentissages: ["Piler les arachides", "Équilibrer la sauce", "Choisir la viande", "Servir en famille"],
+    resume: "data.experiences.x3.resume",
+    description: "data.experiences.x3.description",
+    apprentissages: [
+      "data.experiences.x3.learn.0",
+      "data.experiences.x3.learn.1",
+      "data.experiences.x3.learn.2",
+      "data.experiences.x3.learn.3",
+    ],
     galerie: [expCuisine],
   },
   {
     id: "x4",
-    titre: "Initiation à la danse Sabar",
+    titre: "data.experiences.x4.titre",
     image: expDanse,
     hote: "Khadim Diop",
     hoteRole: "Danseur professionnel",
@@ -89,15 +97,19 @@ export const experiences: Experience[] = [
     dureeMin: 90,
     prix: 8000,
     lieu: "Yoff, Dakar",
-    resume: "Apprenez les pas du Sabar avec un danseur de la troupe nationale.",
-    description:
-      "Khadim, danseur depuis l'âge de 7 ans, vous initie aux rythmes endiablés du Sabar. Échauffement, pas de base, puis improvisation accompagnée de tambours live. Tenue confortable conseillée — l'énergie est garantie !",
-    apprentissages: ["Lire les rythmes du sabar", "Pas de base ventilateur et farwujar", "Improviser sur le rythme", "L'esprit du cercle de danse"],
+    resume: "data.experiences.x4.resume",
+    description: "data.experiences.x4.description",
+    apprentissages: [
+      "data.experiences.x4.learn.0",
+      "data.experiences.x4.learn.1",
+      "data.experiences.x4.learn.2",
+      "data.experiences.x4.learn.3",
+    ],
     galerie: [expDanse],
   },
   {
     id: "x5",
-    titre: "Atelier bijoux d'argent filigrane",
+    titre: "data.experiences.x5.titre",
     image: expBijoux,
     hote: "Pape Souleymane Sy",
     hoteRole: "Bijoutier, Saint-Louis",
@@ -105,15 +117,19 @@ export const experiences: Experience[] = [
     dureeMin: 240,
     prix: 25000,
     lieu: "Médina, Dakar",
-    resume: "Créez votre propre pendentif en argent avec un maître bijoutier.",
-    description:
-      "Pape Souleymane, 4ᵉ génération de bijoutiers de Saint-Louis, vous initie au filigrane. Vous fondez, étirez et tressez le fil d'argent pour repartir avec votre pendentif unique.",
-    apprentissages: ["Fondre l'argent", "Étirer le fil", "Tressage filigrane", "Polissage final"],
+    resume: "data.experiences.x5.resume",
+    description: "data.experiences.x5.description",
+    apprentissages: [
+      "data.experiences.x5.learn.0",
+      "data.experiences.x5.learn.1",
+      "data.experiences.x5.learn.2",
+      "data.experiences.x5.learn.3",
+    ],
     galerie: [expBijoux],
   },
   {
     id: "x6",
-    titre: "Atelier teinture wax",
+    titre: "data.experiences.x6.titre",
     image: expWax,
     hote: "Coumba Diallo",
     hoteRole: "Artisane textile",
@@ -121,15 +137,19 @@ export const experiences: Experience[] = [
     dureeMin: 180,
     prix: 18000,
     lieu: "Rufisque",
-    resume: "Teignez votre propre tissu wax aux motifs traditionnels.",
-    description:
-      "Dans son atelier coloré, Coumba vous fait découvrir les techniques de réserve à la cire et de bain de teinture indigo. Vous repartez avec un tissu de 2m de votre création.",
-    apprentissages: ["Tracer les motifs à la cire", "Préparer le bain", "Teindre par étapes", "Fixer les couleurs"],
+    resume: "data.experiences.x6.resume",
+    description: "data.experiences.x6.description",
+    apprentissages: [
+      "data.experiences.x6.learn.0",
+      "data.experiences.x6.learn.1",
+      "data.experiences.x6.learn.2",
+      "data.experiences.x6.learn.3",
+    ],
     galerie: [expWax],
   },
   {
     id: "x7",
-    titre: "Visite guidée de la Médina",
+    titre: "data.experiences.x7.titre",
     image: expVisite,
     hote: "Ibrahima Fall",
     hoteRole: "Guide local agréé",
@@ -137,15 +157,19 @@ export const experiences: Experience[] = [
     dureeMin: 180,
     prix: 10000,
     lieu: "Médina, Dakar",
-    resume: "Plongez dans le quotidien de la Médina avec un guide passionné.",
-    description:
-      "Ibrahima vous emmène hors des sentiers touristiques : marché Tilène, ateliers de tailleurs, échoppes des vendeurs de cola, mosquée Massalikoul Djinane. Pause thé attaya en chemin.",
-    apprentissages: ["Histoire de la Médina", "Architecture coloniale et locale", "Vie de quartier", "Cérémonie du thé attaya"],
+    resume: "data.experiences.x7.resume",
+    description: "data.experiences.x7.description",
+    apprentissages: [
+      "data.experiences.x7.learn.0",
+      "data.experiences.x7.learn.1",
+      "data.experiences.x7.learn.2",
+      "data.experiences.x7.learn.3",
+    ],
     galerie: [expVisite],
   },
   {
     id: "x8",
-    titre: "Soirée contes sous le baobab",
+    titre: "data.experiences.x8.titre",
     image: expGriot,
     hote: "El Hadji Mansour Mbaye",
     hoteRole: "Griot, gardien de la mémoire",
@@ -153,21 +177,25 @@ export const experiences: Experience[] = [
     dureeMin: 120,
     prix: 9000,
     lieu: "Bandia, Mbour",
-    resume: "Une soirée de contes traditionnels racontés par un griot, sous un baobab millénaire.",
-    description:
-      "À la tombée du jour, El Hadji Mansour partage les épopées de Soundiata, les contes du lièvre et de la hyène, et l'histoire des royaumes wolofs. Dîner traditionnel inclus autour du feu.",
-    apprentissages: ["L'art oral du griot", "Épopées mandingues et wolofs", "Proverbes et sagesse", "Rôle du griot dans la société"],
+    resume: "data.experiences.x8.resume",
+    description: "data.experiences.x8.description",
+    apprentissages: [
+      "data.experiences.x8.learn.0",
+      "data.experiences.x8.learn.1",
+      "data.experiences.x8.learn.2",
+      "data.experiences.x8.learn.3",
+    ],
     galerie: [expGriot],
   },
 ];
 
 export const formatPrix = (n: number) =>
-  new Intl.NumberFormat("fr-FR").format(n) + " FCFA";
+  new Intl.NumberFormat(i18n.language === "fr" ? "fr-FR" : "en-US").format(n) + " " + i18n.t("data.common.fcfa");
 
 export const formatDuree = (min: number) => {
   const h = Math.floor(min / 60);
   const m = min % 60;
-  if (h && m) return `${h}h${m}`;
-  if (h) return `${h}h`;
-  return `${m} min`;
+  if (h && m) return `${h}${i18n.t("data.common.hour")}${m}`;
+  if (h) return `${h}${i18n.t("data.common.hour")}`;
+  return `${m} ${i18n.t("data.common.min")}`;
 };

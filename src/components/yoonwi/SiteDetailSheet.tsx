@@ -47,8 +47,8 @@ export const SiteDetailSheet = ({ site, onClose, userPos }: Props) => {
                 {site.emoji}
               </div>
               <div className="flex-1">
-                <h2 className="text-xl font-black leading-tight">{site.nom}</h2>
-                <p className="text-primary-foreground/85 text-xs">{site.sport}</p>
+                <h2 className="text-xl font-black leading-tight">{t(site.nom)}</h2>
+                <p className="text-primary-foreground/85 text-xs">{t(site.sport)}</p>
                 <p className="text-[11px] flex items-center gap-1 mt-1 text-primary-foreground/85">
                   <MapPin className="h-3 w-3" />{site.ville}
                 </p>
@@ -92,27 +92,27 @@ export const SiteDetailSheet = ({ site, onClose, userPos }: Props) => {
             {t("yoonwi.howToGetThere")}
           </h3>
           <div className="space-y-2">
-            {transports.map((t) => (
+            {transports.map((tr) => (
               <div
-                key={t.id}
+                key={tr.id}
                 className="bg-card rounded-2xl p-3 border border-border/50 shadow-soft flex items-center gap-3"
               >
                 <div className="w-11 h-11 rounded-xl bg-gradient-card border border-border/60 flex items-center justify-center text-2xl shrink-0">
-                  {t.emoji}
+                  {tr.emoji}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-sm text-foreground">{t.nom}</p>
-                  <p className="text-[11px] text-muted-foreground truncate">{t.note}</p>
+                  <p className="font-bold text-sm text-foreground">{t(tr.nom)}</p>
+                  <p className="text-[11px] text-muted-foreground truncate">{t(tr.note)}</p>
                 </div>
                 <div className="text-right shrink-0">
                   <p className={cn(
                     "text-xs font-bold",
-                    t.prixFcfa === 0 ? "text-deep-green" : "text-primary"
+                    tr.prixFcfa === 0 ? "text-deep-green" : "text-primary"
                   )}>
-                    {formatPrix(t.prixFcfa)}
+                    {formatPrix(tr.prixFcfa)}
                   </p>
                   <p className="text-[11px] text-muted-foreground flex items-center gap-1 justify-end">
-                    <Clock className="h-3 w-3" />{formatTemps(t.tempsMin)}
+                    <Clock className="h-3 w-3" />{formatTemps(tr.tempsMin)}
                   </p>
                 </div>
               </div>
@@ -133,7 +133,7 @@ export const SiteDetailSheet = ({ site, onClose, userPos }: Props) => {
                   <div className="flex items-center gap-1.5 mb-1.5">
                     <Icon className="h-3.5 w-3.5 text-primary" />
                     <span className="text-[11px] font-bold uppercase tracking-wider text-foreground">
-                      {type}
+                      {t(`yoonwi.serviceType.${type}`)}
                     </span>
                   </div>
                   <div className="space-y-1.5">
