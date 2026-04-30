@@ -74,7 +74,7 @@ const Auth = () => {
   useEffect(() => {
     if (!loading && session) {
       exitGuest();
-      navigate("/", { replace: true });
+
     }
   }, [loading, session, navigate, exitGuest]);
 
@@ -92,7 +92,6 @@ const Auth = () => {
           email: parsed.data.email,
           password: parsed.data.password,
           options: {
-            emailRedirectTo: `${window.location.origin}/`,
             data: {
               prenom: parsed.data.prenom,
               nom: parsed.data.nom,
@@ -103,7 +102,9 @@ const Auth = () => {
           },
         });
         if (error) throw error;
-        toast({ title: t("auth.toasts.welcomeTitle"), description: t("auth.toasts.accountCreated"), });
+        toast({ title: t("auth.toasts.welcomeTitle"), description: t("auth.toasts.accountCreated") });
+        // Delay navigation to allow the session to be established before routing to Jambaar
+        setTimeout(() => navigate("/jambaar", { replace: true }), 500);
       } else {
         const parsed = signInSchema.safeParse(form);
         if (!parsed.success) {
@@ -116,7 +117,7 @@ const Auth = () => {
         });
         if (error) throw error;
       }
-      navigate("/", { replace: true });
+
     } catch (err: unknown) {
       const description =
         err instanceof Error
@@ -141,7 +142,7 @@ const Auth = () => {
       return;
     }
     if (result.redirected) return;
-    navigate("/", { replace: true });
+    navigate("/jambaar", { replace: true });
   };
 
   const onAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {

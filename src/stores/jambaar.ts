@@ -21,6 +21,7 @@ type State = {
   addPoints: (n: number) => void;
   helpRequest: (id: string) => boolean;
   addDemande: (d: Omit<Demande, "id" | "auteur" | "createdAt" | "distanceKm">) => void;
+  recordAidPost: () => void;
 };
 
 const persistScore = async (userId: string | null, points: number) => {
@@ -99,4 +100,10 @@ export const useJambaar = create<State>((set, get) => ({
         ...s.demandes,
       ],
     })),
+  recordAidPost: () => {
+    set((s) => ({ helpedIds: [...s.helpedIds, `aid-${Date.now()}`] }));
+    get().addPoints(25);
+    const ms = useMissions.getState();
+    ms.addAide();
+  },
 }));

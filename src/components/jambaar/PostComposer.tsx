@@ -27,6 +27,7 @@ export const PostComposer = () => {
   const [imageUrl, setImageUrl] = useState<string | undefined>();
   const addPost = useFeed((s) => s.addPost);
   const addPoints = useJambaar((s) => s.addPoints);
+  const recordAidPost = useJambaar((s) => s.recordAidPost);
 
   const handleFile = (f: File | null) => {
     if (!f) return;
@@ -49,6 +50,9 @@ export const PostComposer = () => {
       beneficiaire: tab === "aide" ? (nom.trim() || undefined) : undefined,
       remercieA: tab === "remerciement" ? (nom.trim() || undefined) : undefined,
     });
+    if (tab === "aide") {
+      recordAidPost();
+    }
     if (tab === "communaute") addPoints(10);
     toast.success(`${t("jambaar.sharePost")} 🌟`);
     reset();
@@ -74,20 +78,20 @@ export const PostComposer = () => {
         </DialogHeader>
 
         <div className="grid grid-cols-3 gap-2">
-          {tabs.map((t) => {
-            const Icon = t.icon;
-            const active = tab === t.id;
+          {tabs.map((tabItem) => {
+            const Icon = tabItem.icon;
+            const active = tab === tabItem.id;
             return (
               <button
-                key={t.id}
-                onClick={() => setTab(t.id)}
+                key={tabItem.id}
+                onClick={() => setTab(tabItem.id)}
                 className={cn(
                   "rounded-xl py-2 px-2 text-xs font-bold flex flex-col items-center gap-1 border transition-all",
-                  active ? "border-primary shadow-warm " + t.color : "border-border/50 bg-muted/30 text-muted-foreground"
+                  active ? "border-primary shadow-warm " + tabItem.color : "border-border/50 bg-muted/30 text-muted-foreground"
                 )}
               >
                 <Icon className="h-4 w-4" />
-                {t(t.label)}
+                {t(tabItem.label)}
               </button>
             );
           })}
