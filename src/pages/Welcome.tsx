@@ -16,8 +16,8 @@ const Welcome = () => {
 
   useEffect(() => {
     if (loading) return;
-    if (session || (hasChosen && isGuest)) navigate("/", { replace: true });
-  }, [session, loading, hasChosen, isGuest, navigate]);
+    if (session) navigate("/home", { replace: true });
+  }, [session, loading, navigate]);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -85,7 +85,7 @@ const Welcome = () => {
               <LogIn className="h-4 w-4" /> {t("welcome.login")}
             </button>
             <button
-              onClick={() => { continueAsGuest(); navigate("/", { replace: true }); }}
+              onClick={() => { continueAsGuest(); navigate("/home", { replace: true }); }}
               className="w-full flex items-center justify-center gap-2 h-11 text-white/85 text-sm font-semibold hover:text-white transition"
             >
               {t("welcome.continueGuest")} <ArrowRight className="h-4 w-4" />

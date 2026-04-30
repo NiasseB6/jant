@@ -19,7 +19,7 @@ type State = {
   userId: string | null;
   setUser: (info: { userId: string | null; userName: string; points: number }) => void;
   addPoints: (n: number) => void;
-  helpRequest: (id: string) => void;
+  helpRequest: (id: string) => boolean;
   addDemande: (d: Omit<Demande, "id" | "auteur" | "createdAt" | "distanceKm">) => void;
 };
 
@@ -61,13 +61,30 @@ export const useJambaar = create<State>((set, get) => ({
       return { points, classement };
     }),
   helpRequest: (id) => {
-    if (get().helpedIds.includes(id)) return;
-    set((s) => ({ helpedIds: [...s.helpedIds, id] }));
+    const s = get();
+    if (s.helpedIds.includes(id)) return false;
+
+    const req = s.demandes.find(d => d.id === id);
+    if (!req) return false;
+    const auteur = req.auteur;
+
+    const helpedCount = s.helpedIds.reduce((count, helpedId) => {
+      const hd = s.demandes.find(d => d.id === helpedId);
+      return hd && hd.auteur === auteur ? count + 1 : count;
+    }, 0);
+
+    if (helpedCount >= 3) {
+      return false; // Already helped this person 3 times
+    }
+
+    set((state) => ({ helpedIds: [...state.helpedIds, id] }));
     get().addPoints(50);
     const ms = useMissions.getState();
     ms.addAide();
     const completed = ms.incrementer("m1");
     if (completed?.done) get().addPoints(completed.mission.recompense);
+    
+    return true;
   },
   addDemande: (d) =>
     set((s) => ({

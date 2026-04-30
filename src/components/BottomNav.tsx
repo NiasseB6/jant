@@ -8,7 +8,7 @@ export const BottomNav = () => {
   const { session } = useAuth();
   const { t } = useTranslation();
   const tabs = [
-    { to: "/", label: t("app.nav.home"), icon: Home, requiresAuth: false },
+    { to: "/home", label: t("app.nav.home"), icon: Home, requiresAuth: false },
     { to: "/jambaar", label: t("app.nav.jambaar"), icon: Trophy, requiresAuth: true },
     { to: "/xibaar", label: t("app.nav.xibaar"), icon: Newspaper, requiresAuth: false },
     { to: "/yoon-wi", label: t("app.nav.yoonwi"), icon: Map, requiresAuth: false },
@@ -24,7 +24,7 @@ export const BottomNav = () => {
             <NavLink
               key={to}
               to={to}
-              end={to === "/"}
+              end={to === "/home"}
               className={({ isActive }) =>
                 cn(
                   "flex flex-col items-center justify-center gap-1 py-2.5 px-1 transition-all relative",

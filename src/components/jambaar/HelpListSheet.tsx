@@ -12,8 +12,12 @@ export const HelpListSheet = () => {
   const { demandes, helpedIds, helpRequest } = useJambaar();
 
   const onHelp = (id: string, auteur: string) => {
-    helpRequest(id);
-    toast.success(t("jambaar.helpList.toasts.helping", { name: auteur, points: 50 }));
+    const success = helpRequest(id);
+    if (success) {
+      toast.success(t("jambaar.helpList.toasts.helping", { name: auteur, points: 50 }));
+    } else {
+      toast.error(`Vous avez atteint la limite d'aide (3 fois) pour ${auteur}.`);
+    }
   };
 
   return (

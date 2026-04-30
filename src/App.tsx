@@ -34,10 +34,10 @@ const App = () => (
         <AuthProvider>
         <RouteGate>
         <Routes>
-          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
           <Route element={<AppLayout />}>
-            <Route path="/" element={<Index />} />
+            <Route path="/home" element={<Index />} />
             <Route path="/jambaar" element={<Jambaar />} />
             <Route path="/xibaar" element={<Xibaar />} />
             <Route path="/xibaar/epreuve/:id" element={<EpreuveDetail />} />

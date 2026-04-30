@@ -17,7 +17,7 @@ const Index = () => {
   const handleSignOut = async () => {
     await signOut();
     exitGuest();
-    navigate("/welcome", { replace: true });
+    navigate("/", { replace: true });
   };
 
   return (

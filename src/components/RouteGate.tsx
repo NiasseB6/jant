@@ -15,10 +15,10 @@ export const RouteGate = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (loading) return;
-    const isPublicRoute = pathname === "/welcome" || pathname === "/auth";
+    const isPublicRoute = pathname === "/" || pathname === "/auth";
     if (isPublicRoute) return;
     if (!session && !(hasChosen && isGuest)) {
-      navigate("/welcome", { replace: true });
+      navigate("/", { replace: true });
     }
   }, [loading, session, hasChosen, isGuest, pathname, navigate]);
 

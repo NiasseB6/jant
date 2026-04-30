@@ -177,9 +177,11 @@ const Auth = () => {
       </div>
       <div className="w-full max-w-md bg-card rounded-3xl shadow-warm border border-border/50 p-6 sm:p-8 animate-fade-in">
         <div className="flex items-center justify-center gap-2 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-warm">
-            <Flame className="h-5 w-5 text-primary-foreground" />
-          </div>
+          <img 
+            src="/apple-touch-icon.png.png" 
+            alt="JANT Logo" 
+            className="w-10 h-10 object-contain" 
+          />
           <h1 className="text-2xl font-black tracking-tight">
             <span className="text-primary">JANT</span>
           </h1>
